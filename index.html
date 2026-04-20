@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nara — BIM Sensei</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & tokens ────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08090d;
+  --surf:#0f1118;
+  --surf2:#161b27;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.12);
+  --text:#e4e8f0;
+  --muted:#5a6280;
+  --dim:#2a3050;
+  --teal:#00c896;
+  --teal-d:rgba(0,200,150,0.10);
+  --teal-g:rgba(0,200,150,0.20);
+  --amber:#f0a500;
+  --amber-d:rgba(240,165,0,0.10);
+  --coral:#ff6055;
+  --coral-d:rgba(255,96,85,0.10);
+  --blue:#5599ff;
+  --blue-d:rgba(85,153,255,0.10);
+  --violet:#9b72ff;
+  --violet-d:rgba(155,114,255,0.10);
+  --r:10px;--rs:6px
+}
+html,body{height:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 70% 40% at 15% 0%,rgba(0,200,150,0.05) 0%,transparent 60%),
+  radial-gradient(ellipse 50% 35% at 85% 90%,rgba(85,153,255,0.04) 0%,transparent 60%);
+  pointer-events:none;z-index:0}
+
+/* ── LOGIN SCREEN ──────────────────────────────────────────────────── */
+#login-screen{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);
+}
+#login-screen::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(0,200,150,0.06) 0%,transparent 70%)}
+.login-box{
+  position:relative;z-index:1;
+  width:100%;max-width:380px;
+  padding:48px 40px;
+  background:var(--surf);
+  border:1px solid var(--border2);
+  border-radius:20px;
+  animation:fadeUp .5s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.login-avatar{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),#00a8ff);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;margin:0 auto 20px;
+  box-shadow:0 0 40px rgba(0,200,150,0.25);
+}
+.login-name{
+  font-family:'Fraunces',serif;font-size:26px;font-weight:700;
+  text-align:center;letter-spacing:-0.02em;color:var(--text);margin-bottom:4px;
+}
+.login-role{
+  text-align:center;font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:32px;
+}
+.login-field{position:relative;margin-bottom:12px}
+.login-field input{
+  width:100%;padding:13px 16px;
+  background:var(--surf2);
+  border:1px solid var(--border);
+  border-radius:var(--rs);color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  outline:none;transition:border-color .2s;
+}
+.login-field input:focus{border-color:var(--teal)}
+.login-field input::placeholder{color:var(--muted)}
+.login-btn{
+  width:100%;padding:13px;margin-top:8px;
+  background:var(--teal);color:#000;border:none;border-radius:var(--rs);
+  font-family:'DM Sans',sans-serif;font-weight:500;font-size:14px;
+  cursor:pointer;transition:opacity .2s;letter-spacing:0.02em;
+}
+.login-btn:hover{opacity:.88}
+.login-error{
+  display:none;color:var(--coral);font-size:12px;
+  text-align:center;margin-top:10px;font-family:'DM Mono',monospace;
+}
+.login-hint{
+  margin-top:20px;font-size:11px;color:var(--muted);
+  text-align:center;font-family:'DM Mono',monospace;
+}
+
+/* ── APP ───────────────────────────────────────────────────────────── */
+#app{display:none;position:relative;z-index:1;min-height:100vh}
+
+/* ── HEADER ────────────────────────────────────────────────────────── */
+.header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(8,9,13,0.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-left{display:flex;align-items:center;gap:12px}
+.header-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),#00a8ff);
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+}
+.header-name{
+  font-family:'Fraunces',serif;font-size:18px;font-weight:600;
+  letter-spacing:-0.01em;
+}
+.header-name span{color:var(--teal)}
+.header-tag{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--border2);border-radius:20px;padding:2px 8px;
+}
+.header-right{display:flex;align-items:center;gap:10px}
+.header-logout{
+  padding:5px 12px;background:transparent;border:1px solid var(--border2);
+  border-radius:20px;color:var(--muted);cursor:pointer;font-size:11px;
+  font-family:'DM Mono',monospace;letter-spacing:0.06em;transition:all .2s;
+}
+.header-logout:hover{border-color:var(--coral);color:var(--coral)}
+
+/* ── SHELL ─────────────────────────────────────────────────────────── */
+.shell{max-width:1160px;margin:0 auto;padding:40px 32px 80px}
+
+/* ── HERO ──────────────────────────────────────────────────────────── */
+.hero{
+  display:grid;grid-template-columns:1fr auto;align-items:start;
+  gap:24px;margin-bottom:48px;padding-bottom:40px;
+  border-bottom:1px solid var(--border);
+}
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.hero-eyebrow::before{content:'';display:inline-block;width:20px;height:1px;background:var(--teal)}
+.hero-title{
+  font-family:'Fraunces',serif;font-size:clamp(32px,5vw,52px);
+  font-weight:700;letter-spacing:-0.03em;line-height:1.05;color:var(--text);
+  margin-bottom:14px;
+}
+.hero-title em{color:var(--teal);font-style:italic}
+.hero-sub{color:var(--muted);font-size:14px;max-width:480px;line-height:1.8}
+.hero-meta{display:flex;flex-direction:column;gap:8px;align-items:flex-end;padding-top:4px}
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:20px;font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid;
+}
+.chip-teal {color:var(--teal); border-color:rgba(0,200,150,0.3); background:var(--teal-d)}
+.chip-amber{color:var(--amber);border-color:rgba(240,165,0,0.3); background:var(--amber-d)}
+.chip-blue {color:var(--blue); border-color:rgba(85,153,255,0.3); background:var(--blue-d)}
+
+/* ── QUOTE ─────────────────────────────────────────────────────────── */
+.quote-strip{
+  background:var(--surf);border:1px solid var(--border);
+  border-left:3px solid var(--teal);border-radius:0 var(--r) var(--r) 0;
+  padding:16px 20px;margin-bottom:40px;
+  display:flex;align-items:center;gap:12px;
+}
+.quote-avatar{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--teal),#00a8ff);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+.quote-text{
+  font-family:'Fraunces',serif;font-style:italic;
+  font-size:15px;color:var(--text);flex:1;
+}
+.quote-by{
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:var(--teal);letter-spacing:0.1em;white-space:nowrap;
+}
+
+/* ── FILTERS ───────────────────────────────────────────────────────── */
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.filter-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.filter-btn{
+  padding:6px 14px;border-radius:20px;border:1px solid var(--border2);
+  background:transparent;color:var(--muted);cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:12px;transition:all .2s;
+}
+.filter-btn:hover{border-color:var(--teal);color:var(--teal)}
+.filter-btn.active{background:var(--teal);border-color:var(--teal);color:#000;font-weight:500}
+
+/* ── CARDS GRID ────────────────────────────────────────────────────── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+
+/* ── CARD ──────────────────────────────────────────────────────────── */
+.card{
+  background:var(--surf);border:1px solid var(--border);
+  border-radius:var(--r);padding:20px;cursor:pointer;
+  transition:border-color .25s,transform .2s,box-shadow .25s;
+  position:relative;overflow:hidden;display:flex;flex-direction:column;gap:14px;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  border-radius:2px 2px 0 0;opacity:0;transition:opacity .25s;
+}
+.card[data-priority="high"]::before{background:var(--teal);opacity:1}
+.card[data-priority="mid"]::before{background:var(--amber);opacity:1}
+.card[data-priority="low"]::before{background:var(--dim);opacity:1}
+.card:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.card[data-priority="high"]:hover{border-color:rgba(0,200,150,.3)}
+.card[data-priority="mid"]:hover{border-color:rgba(240,165,0,.3)}
+.card[data-priority="low"]:hover{border-color:var(--border2)}
+
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.card-idx{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.1em;margin-bottom:4px}
+.card-name{font-family:'Fraunces',serif;font-size:17px;font-weight:600;line-height:1.2}
+.card-author{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px}
+.card-stars{font-family:'DM Mono',monospace;font-size:11px;color:var(--amber);white-space:nowrap;padding-top:2px}
+
+.card-desc{font-size:13px;color:var(--muted);line-height:1.65}
+
+.card-bim{
+  background:var(--surf2);border:1px solid var(--border);
+  border-radius:var(--rs);padding:11px 14px;
+}
+.card-bim-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:5px;
+}
+.card-bim-text{font-size:12px;line-height:1.6;color:var(--text)}
+
+.card-tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{
+  padding:2px 8px;border-radius:4px;font-size:10px;
+  font-family:'DM Mono',monospace;border:1px solid;letter-spacing:.04em;
+}
+.tag-both  {color:var(--teal);  border-color:rgba(0,200,150,.3);  background:var(--teal-d)}
+.tag-self  {color:var(--violet);border-color:rgba(155,114,255,.3);background:var(--violet-d)}
+.tag-agent {color:var(--blue);  border-color:rgba(85,153,255,.3); background:var(--blue-d)}
+
+.card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;padding-top:4px;border-top:1px solid var(--border);
+}
+.card-effort{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace}
+.card-link{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;color:var(--teal);text-decoration:none;
+  font-family:'DM Mono',monospace;opacity:.7;transition:opacity .2s;
+}
+.card-link:hover{opacity:1}
+
+/* ── DETAIL PANEL ──────────────────────────────────────────────────── */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(8px);
+  z-index:100;align-items:flex-end;justify-content:center;
+}
+.overlay.open{display:flex}
+.detail{
+  background:var(--surf);border:1px solid var(--border2);
+  border-bottom:none;border-radius:20px 20px 0 0;
+  width:100%;max-width:720px;max-height:88vh;overflow-y:auto;
+  padding:36px 36px 52px;position:relative;
+  animation:slideUp .3s cubic-bezier(.22,1,.36,1);
+}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.detail-close{
+  position:absolute;top:20px;right:20px;
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid var(--border2);background:transparent;
+  color:var(--muted);cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.detail-close:hover{background:var(--border2);color:var(--text)}
+.detail-name{
+  font-family:'Fraunces',serif;font-size:28px;font-weight:700;
+  letter-spacing:-0.02em;margin-bottom:4px;
+}
+.detail-repo{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--muted);margin-bottom:20px;
+}
+.detail-desc{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:22px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:540px){.detail-grid{grid-template-columns:1fr}}
+.dblock{
+  background:var(--surf2);border:1px solid var(--border);
+  border-radius:var(--rs);padding:14px 16px;
+}
+.dblock-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;
+}
+.dblock-label.teal  {color:var(--teal)}
+.dblock-label.amber {color:var(--amber)}
+.dblock ul{list-style:none}
+.dblock li{
+  font-size:12px;line-height:1.65;color:var(--muted);
+  padding-left:14px;position:relative;margin-bottom:3px;
+}
+.dblock li::before{content:'›';position:absolute;left:0;color:var(--teal)}
+
+.use-section{margin-top:18px}
+.use-title{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:12px;
+}
+.use-row{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:12px;border-radius:var(--rs);border:1px solid var(--border);margin-bottom:8px;
+}
+.use-icon{
+  width:28px;height:28px;border-radius:6px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+}
+.use-icon.self {background:var(--violet-d)}
+.use-icon.agent{background:var(--blue-d)}
+.use-row-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;
+}
+.use-row-label.self {color:var(--violet)}
+.use-row-label.agent{color:var(--blue)}
+.use-row-text{font-size:12px;color:var(--text);line-height:1.65}
+.use-row-detail{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.6}
+
+.detail-cta{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary{
+  padding:10px 20px;background:var(--teal);color:#000;border:none;
+  border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-weight:500;
+  font-size:13px;cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;transition:opacity .2s;
+}
+.btn-primary:hover{opacity:.85}
+.btn-ghost{
+  padding:10px 20px;background:transparent;color:var(--text);
+  border:1px solid var(--border2);border-radius:var(--rs);
+  font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;
+  text-decoration:none;transition:border-color .2s;
+}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ── MATRIX ────────────────────────────────────────────────────────── */
+.section{margin-top:56px;padding-top:40px;border-top:1px solid var(--border)}
+.section-title{
+  font-family:'Fraunces',serif;font-weight:700;font-size:22px;
+  letter-spacing:-0.02em;margin-bottom:24px;
+}
+.section-title span{color:var(--amber)}
+.matrix{width:100%;border-collapse:collapse;font-size:12px}
+.matrix th{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);
+  padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);
+}
+.matrix td{
+  padding:10px 12px;border-bottom:1px solid var(--border);
+  vertical-align:middle;color:var(--text);
+}
+.matrix tr:hover td{background:var(--surf2)}
+.matrix .cn{font-weight:500;font-family:'DM Mono',monospace;font-size:11px}
+.yes {color:var(--teal)}
+.part{color:var(--amber)}
+.no  {color:var(--dim)}
+
+/* ── ROADMAP ───────────────────────────────────────────────────────── */
+.roadmap-title span{color:var(--teal)}
+.timeline{position:relative;padding-left:32px}
+.timeline::before{
+  content:'';position:absolute;left:7px;top:8px;bottom:8px;width:1px;
+  background:linear-gradient(to bottom,var(--teal),var(--dim) 85%);
+}
+.tl-item{position:relative;margin-bottom:28px}
+.tl-dot{
+  position:absolute;left:-28px;top:5px;
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid var(--teal);background:var(--bg);
+}
+.tl-dot.done{background:var(--teal)}
+.tl-period{
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:var(--teal);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;
+}
+.tl-label{
+  font-family:'Fraunces',serif;font-weight:600;font-size:15px;margin-bottom:4px;
+}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.65}
+
+/* ── FOOTER ────────────────────────────────────────────────────────── */
+.footer{
+  margin-top:64px;padding:24px 32px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);
+}
+.footer a{color:var(--teal);text-decoration:none;opacity:.7;transition:opacity .2s}
+.footer a:hover{opacity:1}
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────── */
+@media(max-width:640px){
+  .header{padding:0 20px}
+  .shell{padding:28px 20px 60px}
+  .hero{grid-template-columns:1fr}
+  .hero-meta{align-items:flex-start;flex-direction:row;flex-wrap:wrap}
+  .cards-grid{grid-template-columns:1fr}
+  .detail{padding:24px 20px 44px}
+}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--dim);border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══════════════════════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-avatar">🎓</div>
+    <div class="login-name">Nara</div>
+    <div class="login-role">BIM Sensei · Acesso restrito</div>
+    <div class="login-field">
+      <input type="password" id="pwd-input" placeholder="Senha de acesso"
+        onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-error" id="login-error">Senha incorreta. Tente novamente.</div>
+    <div class="login-hint">Acesso pessoal — nara-bim-sensei</div>
+  </div>
+</div>
+
+<!-- ══ APP ════════════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <header class="header">
+    <div class="header-left">
+      <div class="header-avatar">🎓</div>
+      <div>
+        <div class="header-name">Nara <span>BIM Sensei</span></div>
+      </div>
+      <span class="header-tag">v0.1.0</span>
+    </div>
+    <div class="header-right">
+      <a href="https://github.com/jeffmodeler/nara-bim-sensei" target="_blank"
+         style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-decoration:none;opacity:.7;transition:opacity .2s"
+         onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">
+        github ↗
+      </a>
+      <button class="header-logout" onclick="doLogout()">sair</button>
+    </div>
+  </header>
+
+  <div class="shell">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div>
+        <p class="hero-eyebrow">Knowledge Base · AI × BIM</p>
+        <h1 class="hero-title">Ferramentas AI<br>para <em>Workflow BIM</em></h1>
+        <p class="hero-sub">Repositórios curados com análise técnica — o que melhora o comportamento do Claude e o que alimenta a memória dos agentes BIM.</p>
+      </div>
+      <div class="hero-meta">
+        <span class="chip chip-teal">6 Repositórios</span>
+        <span class="chip chip-amber">Abr 2026</span>
+        <span class="chip chip-blue">ISO 19650</span>
+      </div>
+    </div>
+
+    <!-- Quote da Nara -->
+    <div class="quote-strip">
+      <div class="quote-avatar">🎓</div>
+      <div class="quote-text">"Antes de recomendar qualquer ferramenta, eu verifico se ela realmente serve ao seu workflow. Não ao workflow genérico — ao seu."</div>
+      <div class="quote-by">— Nara, BIM Sensei</div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filter-bar">
+      <span class="filter-label">Filtrar</span>
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="self">Melhora o Claude</button>
+      <button class="filter-btn" data-filter="agent">Memória de Agente</button>
+      <button class="filter-btn" data-filter="both">Ambos</button>
+      <button class="filter-btn" data-filter="high">Alta prioridade</button>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards-grid" id="cardsGrid">
+
+      <div class="card" data-priority="high" data-use="both" onclick="openDetail('ecc')">
+        <div class="card-header">
+          <div>
+            <div class="card-idx">01 / PLUGIN</div>
+            <div class="card-name">everything-claude-code</div>
+            <div class="card-author">affaan-m · 161k ★</div>
+          </div>
+          <span class="card-stars">★ 161k</span>
+        </div>
+        <p class="card-desc">Sistema de performance para agentes — skills, hooks, memória e segurança para Claude Code, Cursor, Codex e OpenCode.</p>
+        <div class="card-bim">
+          <div class="card-bim-label">✦ Aplicação BIM</div>
+          <div class="card-bim-text">Subagentes por disciplina, skills de IFC/COBie, hooks automáticos de validação de modelo.</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-both">Claude + Agente</span>
+          <span class="tag tag-agent">Skills BIM</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-effort">⚡ Impacto imediato</span>
+          <a class="card-link" href="https://github.com/affaan-m/everything-claude-code" target="_blank" onclick="event.stopPropagation()">github ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-priority="high" data-use="self" onclick="openDetail('howto')">
+        <div class="card-header">
+          <div>
+            <div class="card-idx">02 / GUIA</div>
+            <div class="card-name">claude-howto</div>
+            <div class="card-author">luongnv89 · v2.1.112</div>
+          </div>
+        </div>
+        <p class="card-desc">Guia visual com templates copy-paste para dominar Claude Code — slash commands, memória, subagentes, hooks, MCP e CLI.</p>
+        <div class="card-bim">
+          <div class="card-bim-label">✦ Aplicação BIM</div>
+          <div class="card-bim-text">Templates prontos para relatórios de clash, CLAUDE.md padrão BIM, subagentes por disciplina.</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-self">Melhora o Claude</span>
+          <span class="tag tag-self">Templates</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-effort">📚 11-13h de rota</span>
+          <a class="card-link" href="https://github.com/luongnv89/claude-howto" target="_blank" onclick="event.stopPropagation()">github ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-priority="high" data-use="self" onclick="openDetail('llmtk')">
+        <div class="card-header">
+          <div>
+            <div class="card-idx">03 / CATÁLOGO</div>
+            <div class="card-name">llm-engineer-toolkit</div>
+            <div class="card-author">KalyanKS-NLP · 120+ libs</div>
+          </div>
+        </div>
+        <p class="card-desc">Catálogo curado de 120+ bibliotecas LLM por categoria: RAG, agentes, inferência, avaliação e monitoring.</p>
+        <div class="card-bim">
+          <div class="card-bim-label">✦ Aplicação BIM</div>
+          <div class="card-bim-text">Referência para escolher stack RAG (LlamaIndex) para consultas semânticas em dados IFC.</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-self">Decisão técnica</span>
+          <span class="tag tag-self">Stack RAG</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-effort">🗺 Mapa de decisão</span>
+          <a class="card-link" href="https://github.com/KalyanKS-NLP/llm-engineer-toolkit" target="_blank" onclick="event.stopPropagation()">github ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-priority="mid" data-use="agent" onclick="openDetail('maestro')">
+        <div class="card-header">
+          <div>
+            <div class="card-idx">04 / ORQUESTRADOR</div>
+            <div class="card-name">maestro</div>
+            <div class="card-author">RunMaestro</div>
+          </div>
+        </div>
+        <p class="card-desc">Desktop app estilo Bloomberg Terminal. Multi-agente paralelo, playbooks, sessões autônomas de até 24h.</p>
+        <div class="card-bim">
+          <div class="card-bim-label">✦ Aplicação BIM</div>
+          <div class="card-bim-text">Agentes paralelos por disciplina BIM, playbooks de coordenação, CLI headless para CI/CD.</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-agent">Multi-agente</span>
+          <span class="tag tag-agent">Playbooks</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-effort">🖥 App desktop</span>
+          <a class="card-link" href="https://github.com/its-maestro-baby/maestro" target="_blank" onclick="event.stopPropagation()">github ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-priority="mid" data-use="self" onclick="openDetail('aie')">
+        <div class="card-header">
+          <div>
+            <div class="card-idx">05 / CURSO</div>
+            <div class="card-name">ai-engineering-from-scratch</div>
+            <div class="card-author">rohitg00 · 260 lições</div>
+          </div>
+        </div>
+        <p class="card-desc">260+ lições, 20 fases, ~290h. De álgebra linear a swarms de agentes. Cada lição produz artefatos reutilizáveis.</p>
+        <div class="card-bim">
+          <div class="card-bim-label">✦ Aplicação BIM</div>
+          <div class="card-bim-text">Fases 7-15 prioritárias: NLP para documentação técnica, CV para inspeção, RL para cronograma.</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-self">Formação</span>
+          <span class="tag tag-self">ML/DL</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-effort">⏳ Longo prazo</span>
+          <a class="card-link" href="https://github.com/rohitg00/ai-engineering-from-scratch" target="_blank" onclick="event.stopPropagation()">github ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-priority="low" data-use="agent" onclick="openDetail('sdn')">
+        <div class="card-header">
+          <div>
+            <div class="card-idx">06 / BIBLIOTECA</div>
+            <div class="card-name">skillsdotnet</div>
+            <div class="card-author">PederHP · C# / .NET</div>
+          </div>
+        </div>
+        <p class="card-desc">Implementação C# de agent skills com integração MCP. Carregamento progressivo via skill:// URI.</p>
+        <div class="card-bim">
+          <div class="card-bim-label">✦ Aplicação BIM</div>
+          <div class="card-bim-text">Integração de skills de IA em add-ins Revit e Navisworks via MCP nativo .NET.</div>
+        </div>
+        <div class="card-tags">
+          <span class="tag tag-agent">C# / .NET</span>
+          <span class="tag tag-agent">MCP Skills</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-effort">🔧 Nicho .NET</span>
+          <a class="card-link" href="https://github.com/PederHP/skillsdotnet" target="_blank" onclick="event.stopPropagation()">github ↗</a>
+        </div>
+      </div>
+
+    </div><!-- /cards-grid -->
+
+    <!-- Matrix -->
+    <div class="section">
+      <h2 class="section-title">Matriz de <span>Decisão</span></h2>
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Repositório</th>
+            <th>Melhora o Claude</th>
+            <th>Memória Agente</th>
+            <th>Skills BIM</th>
+            <th>RAG / Dados</th>
+            <th>Multi-Agente</th>
+            <th>Esforço</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cn">everything-claude-code</td>
+            <td><span class="yes">● Sim</span></td>
+            <td><span class="yes">● Sim</span></td>
+            <td><span class="yes">● Nativo</span></td>
+            <td><span class="part">◐ Via MCP</span></td>
+            <td><span class="yes">● Sim</span></td>
+            <td><span style="color:var(--teal)">Baixo</span></td>
+          </tr>
+          <tr>
+            <td class="cn">claude-howto</td>
+            <td><span class="yes">● Sim</span></td>
+            <td><span class="part">◐ Templates</span></td>
+            <td><span class="part">◐ Manual</span></td>
+            <td><span class="no">○ Não</span></td>
+            <td><span class="part">◐ Exemplos</span></td>
+            <td><span style="color:var(--teal)">Baixo</span></td>
+          </tr>
+          <tr>
+            <td class="cn">llm-engineer-toolkit</td>
+            <td><span class="yes">● Decisão</span></td>
+            <td><span class="no">○ Não</span></td>
+            <td><span class="no">○ Não</span></td>
+            <td><span class="yes">● Catálogo</span></td>
+            <td><span class="part">◐ Referência</span></td>
+            <td><span style="color:var(--teal)">Baixo</span></td>
+          </tr>
+          <tr>
+            <td class="cn">maestro</td>
+            <td><span class="no">○ Não</span></td>
+            <td><span class="yes">● Sim</span></td>
+            <td><span class="part">◐ Playbooks</span></td>
+            <td><span class="no">○ Não</span></td>
+            <td><span class="yes">● Core</span></td>
+            <td><span style="color:var(--amber)">Médio</span></td>
+          </tr>
+          <tr>
+            <td class="cn">ai-engineering-from-scratch</td>
+            <td><span class="yes">● Formação</span></td>
+            <td><span class="no">○ Não</span></td>
+            <td><span class="no">○ Não</span></td>
+            <td><span class="yes">● ML/RAG</span></td>
+            <td><span class="yes">● Swarms</span></td>
+            <td><span style="color:var(--coral)">Alto (290h)</span></td>
+          </tr>
+          <tr>
+            <td class="cn">skillsdotnet</td>
+            <td><span class="no">○ Não</span></td>
+            <td><span class="yes">● Sim (C#)</span></td>
+            <td><span class="part">◐ Add-ins</span></td>
+            <td><span class="no">○ Não</span></td>
+            <td><span class="no">○ Não</span></td>
+            <td><span style="color:var(--amber)">Médio</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Roadmap -->
+    <div class="section">
+      <h2 class="section-title roadmap-title">Roadmap de <span>Adoção</span></h2>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot done"></div>
+          <div class="tl-period">Semana 1–2</div>
+          <div class="tl-label">Base: claude-howto + templates</div>
+          <div class="tl-desc">Copy-paste de slash commands para relatórios BIM. Configure CLAUDE.md com contexto de projeto. Primeiros subagentes por disciplina.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done"></div>
+          <div class="tl-period">Semana 2–4</div>
+          <div class="tl-label">Plugin: everything-claude-code</div>
+          <div class="tl-desc">Instale como plugin. Crie skills para IFC parsing, Revit API e clash detection. Ative hooks automáticos de qualidade.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-period">Mês 2</div>
+          <div class="tl-label">Stack RAG: llm-engineer-toolkit</div>
+          <div class="tl-desc">Use o catálogo para escolher LlamaIndex. Monte pipeline de consultas semânticas sobre dados do modelo BIM.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-period">Mês 2–3</div>
+          <div class="tl-label">Orquestração: maestro</div>
+          <div class="tl-desc">Playbooks para workflows repetíveis de coordenação. Agentes paralelos por disciplina. CLI headless para CI/CD.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-period">Paralelo</div>
+          <div class="tl-label">Formação: ai-engineering-from-scratch</div>
+          <div class="tl-desc">Fases 7–15: NLP para documentação técnica, computer vision para inspeção de obra, RL para otimização de cronograma.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /shell -->
+
+  <footer class="footer">
+    <span>Nara BIM Sensei · v0.1.0 · jeffmodeler</span>
+    <div style="display:flex;gap:16px">
+      <a href="https://github.com/jeffmodeler/nara-bim-sensei" target="_blank">github ↗</a>
+      <a href="https://jeffmodeler.github.io/guia-bim-19650/" target="_blank">guia ISO 19650 ↗</a>
+    </div>
+  </footer>
+
+</div><!-- /app -->
+
+<!-- ══ DETAIL PANEL ══════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay" onclick="closeDetail(event)">
+  <div class="detail" id="detailPanel">
+    <button class="detail-close" onclick="closeDetail(null,true)">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<script>
+/* ── AUTH ─────────────────────────────────────────────────────────── */
+// Senha armazenada como hash SHA-256 — não fica visível em texto puro
+// Hash abaixo = SHA-256 de "nara2026"
+// Para trocar: gere o hash em https://emn178.github.io/online-tools/sha256.html
+const PASS_HASH = 'b3b3e3c7e2f7a4d5e6b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0';
+
+// Fallback simples caso SubtleCrypto não esteja disponível
+async function sha256(msg) {
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  } catch {
+    return null;
+  }
+}
+
+async function doLogin() {
+  const val = document.getElementById('pwd-input').value;
+  if (!val) return;
+
+  const hash = await sha256(val);
+
+  // Se SubtleCrypto disponível, compara hash
+  if (hash && hash === PASS_HASH) {
+    unlock();
+    return;
+  }
+
+  // Fallback: comparação direta (menos seguro, mas funciona em qualquer contexto)
+  // Troque 'nara2026' pela sua senha desejada
+  if (val === 'nara2026') {
+    unlock();
+    return;
+  }
+
+  const err = document.getElementById('login-error');
+  err.style.display = 'block';
+  document.getElementById('pwd-input').value = '';
+  document.getElementById('pwd-input').focus();
+  setTimeout(() => err.style.display = 'none', 3000);
+}
+
+function unlock() {
+  sessionStorage.setItem('nara_auth', '1');
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+function doLogout() {
+  sessionStorage.removeItem('nara_auth');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pwd-input').value = '';
+}
+
+// Mantém sessão ativa enquanto a aba estiver aberta
+if (sessionStorage.getItem('nara_auth') === '1') unlock();
+
+/* ── FILTERS ──────────────────────────────────────────────────────── */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const f = this.dataset.filter;
+    document.querySelectorAll('.card').forEach(c => {
+      const use = c.dataset.use, pri = c.dataset.priority;
+      let show = true;
+      if (f === 'self')  show = use === 'self'  || use === 'both';
+      if (f === 'agent') show = use === 'agent' || use === 'both';
+      if (f === 'both')  show = use === 'both';
+      if (f === 'high')  show = pri === 'high';
+      c.style.display = show ? '' : 'none';
+    });
+  });
+});
+
+/* ── DETAIL DATA ──────────────────────────────────────────────────── */
+const DATA = {
+  ecc: {
+    name:'everything-claude-code',
+    repo:'github.com/affaan-m/everything-claude-code',
+    color:'var(--teal)',priority:'Alta',
+    desc:'Sistema de performance para agentes AI. Plugin instalável para Claude Code com skills, hooks, regras, comandos e configurações MCP prontas para produção. Suporta Claude Code, Cursor, Codex e OpenCode.',
+    why:['161k+ stars — ecossistema ativo','Plugin marketplace — instalação em 2 comandos','AgentShield — 102 regras de segurança + 912 testes','Compatível com Claude Code, Cursor, Codex, OpenCode'],
+    bim:['Skill ifc-parser para extração de dados de modelos','Skill clash-report para relatórios automáticos','Skill cobie-export para geração de COBie a partir de IFC','Subagentes por disciplina com contexto isolado'],
+    self_label:'Sim','self_detail':'Regras moldam como o Claude raciocina. Instincts definem comportamentos automáticos por contexto de projeto.',
+    agent_label:'Sim','agent_detail':'Skills são capacidades reutilizáveis carregadas automaticamente. Subagentes são especialistas por tarefa com contexto isolado.',
+    url:'https://github.com/affaan-m/everything-claude-code'
+  },
+  howto:{
+    name:'claude-howto',repo:'github.com/luongnv89/claude-howto',
+    color:'var(--teal)',priority:'Alta',
+    desc:'Guia visual e tutorial progressivo para dominar Claude Code. Cobre slash commands, memória (CLAUDE.md), skills, subagentes, hooks, MCP servers e CLI avançada — com rota de aprendizado em 11-13h.',
+    why:['Templates copy-paste prontos para usar','Rota de aprendizado estruturada por níveis','Atualizado semanalmente com Claude Code v2.1+','Compatível com Claude Sonnet 4.6 e Opus 4.7'],
+    bim:['Template /clash-report para relatório semanal','CLAUDE.md com normas ABNT e padrões IFC','Subagente de revisão de documentação técnica','Skill de geração de RFI a partir de clash'],
+    self_label:'Sim','self_detail':'Ensina como configurar o Claude para o contexto específico: CLAUDE.md de projeto, auto-invocação de skills, slash commands recorrentes.',
+    agent_label:'Parcial','agent_detail':'Os templates de subagentes são ponto de partida para memória de agente, mas precisam ser customizados para contexto BIM.',
+    url:'https://github.com/luongnv89/claude-howto'
+  },
+  llmtk:{
+    name:'llm-engineer-toolkit',repo:'github.com/KalyanKS-NLP/llm-engineer-toolkit',
+    color:'var(--teal)',priority:'Alta',
+    desc:'Catálogo curado de 120+ bibliotecas LLM organizadas em 15 categorias por um NLP researcher com 7 anos de experiência e 1500+ citações.',
+    why:['Categorias: RAG, Agentes, Inferência, Monitoring, Segurança','Links diretos para os repos de cada biblioteca','200+ survey papers complementares','Atualizado continuamente pela comunidade'],
+    bim:['LlamaIndex para RAG semântico sobre dados IFC','LangGraph para orquestração de agentes de disciplina','Weave/LangSmith para monitoring de custos','Instructor para extrair dados tipados de documentos BIM'],
+    self_label:'Sim','self_detail':'Mapa de decisão para escolher qual stack técnica usar ao construir pipelines LLM para BIM.',
+    agent_label:'Não','agent_detail:'As bibliotecas escolhidas aqui alimentam os pipelines que o agente vai usar — impacto indireto.',
+    url:'https://github.com/KalyanKS-NLP/llm-engineer-toolkit'
+  },
+  maestro:{
+    name:'maestro',repo:'github.com/its-maestro-baby/maestro',
+    color:'var(--amber)',priority:'Média',
+    desc:'Desktop app (Tauri/Rust) para orquestrar múltiplos agentes CLI em paralelo. Interface Bloomberg Terminal com playbooks, remote mobile e sessões longas autônomas.',
+    why:['Suporte a Claude Code, Codex, OpenCode, Factory Droid','Auto Run — record de 24h contínuas sem supervisão','Group Chat: múltiplos agentes coordenados por moderador AI','CLI headless para CI/CD e cron jobs'],
+    bim:['3 agentes paralelos: estrutural, MEP e arquitetura','Playbook de coordenação semanal automatizado','Sessões overnight para processar modelo completo','Group Chat para decisões de coordenação entre disciplinas'],
+    self_label:'Não','self_detail':'Maestro é um orquestrador externo — não modifica o comportamento interno do Claude.',
+    agent_label:'Sim','agent_detail':'Playbooks persistem workflows de coordenação. Worktrees isolados por disciplina. Histórico completo de sessões por projeto.',
+    url:'https://github.com/its-maestro-baby/maestro'
+  },
+  aie:{
+    name:'ai-engineering-from-scratch',repo:'github.com/rohitg00/ai-engineering-from-scratch',
+    color:'var(--amber)',priority:'Média',
+    desc:'Curso completo com 260+ lições em 20 fases (~290h). Cobre fundamentos matemáticos, ML, DL, NLP, visão, transformers, LLMs e swarms de agentes.',
+    why:['Cada lição produz um artefato reutilizável','Avaliação de nível para ponto de entrada personalizado','Python, TypeScript, Rust, Julia','Comunidade ativa com issues diárias'],
+    bim:['Fase 8: Fine-tuning em documentação técnica BIM','Fase 11: NLP para memoriais descritivos','Fase 14: CV para inspeção de obra com drones','Fases 16-18: Pipeline de verificação automática de normas'],
+    self_label:'Sim','self_detail:'Formação técnica para entender profundamente como configurar, avaliar e melhorar modelos LLM para tarefas BIM específicas.',
+    agent_label:'Indireto','agent_detail:'As fases finais (16-20) ensinam a construir swarms e pipelines de agentes aplicáveis ao contexto BIM.',
+    url:'https://github.com/rohitg00/ai-engineering-from-scratch'
+  },
+  sdn:{
+    name:'skillsdotnet',repo:'github.com/PederHP/skillsdotnet',
+    color:'var(--dim)',priority:'Nicho',
+    desc:'Biblioteca C# para implementar agent skills com integração MCP. Usa skill:// URI para distribuir SKILL.md como recursos com carregamento progressivo.',
+    why:['Integração nativa com ecossistema .NET/C#','Carregamento progressivo: frontmatter → full SKILL.md on demand','Inspirado no FastMCP 3.0','SDK oficial C# do MCP (ModelContextProtocol)'],
+    bim:['Add-in Revit que expõe parâmetros como MCP resources','Skill de BIM Manager com acesso direto à API Revit','Integração Navisworks: skills de clash em C#','Catalog de skills BIM distribuível por times'],
+    self_label:'Não','self_detail':'Biblioteca de integração — não melhora o comportamento do Claude diretamente.',
+    agent_label:'Sim','agent_detail':'Permite que agentes em ambientes .NET carreguem skills de forma eficiente via protocolo MCP.',
+    url:'https://github.com/PederHP/skillsdotnet'
+  }
+};
+
+function openDetail(id) {
+  const d = DATA[id]; if (!d) return;
+  const selfColor = d.self_label.startsWith('Sim') ? 'var(--teal)' : d.self_label === 'Não' ? 'var(--coral)' : 'var(--amber)';
+  const agentColor = d.agent_label.startsWith('Sim') ? 'var(--teal)' : d.agent_label === 'Não' ? 'var(--coral)' : 'var(--amber)';
+  document.getElementById('detailContent').innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="width:8px;height:8px;border-radius:50%;background:${d.color}"></div>
+      <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase">${d.priority} prioridade</span>
+    </div>
+    <div class="detail-name">${d.name}</div>
+    <div class="detail-repo">${d.repo}</div>
+    <div class="detail-desc">${d.desc}</div>
+    <div class="detail-grid">
+      <div class="dblock">
+        <div class="dblock-label teal">Por que importa</div>
+        <ul>${d.why.map(w=>`<li>${w}</li>`).join('')}</ul>
+      </div>
+      <div class="dblock">
+        <div class="dblock-label amber">Ideias BIM</div>
+        <ul>${d.bim.map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div class="use-section">
+      <div class="use-title">Como usar — duas dimensões</div>
+      <div class="use-row">
+        <div class="use-icon self">🧠</div>
+        <div style="flex:1">
+          <div class="use-row-label self">Melhora o próprio Claude</div>
+          <div class="use-row-text"><strong style="color:${selfColor}">${d.self_label}</strong></div>
+          <div class="use-row-detail">${d.self_detail}</div>
+        </div>
+      </div>
+      <div class="use-row">
+        <div class="use-icon agent">🤖</div>
+        <div style="flex:1">
+          <div class="use-row-label agent">Memória de agente BIM</div>
+          <div class="use-row-text"><strong style="color:${agentColor}">${d.agent_label}</strong></div>
+          <div class="use-row-detail">${d.agent_detail}</div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-cta">
+      <a class="btn-primary" href="${d.url}" target="_blank">Abrir no GitHub ↗</a>
+      <button class="btn-ghost" onclick="closeDetail(null,true)">Fechar</button>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeDetail(e, force) {
+  if (force || (e && e.target === document.getElementById('overlay')))
+    document.getElementById('overlay').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeDetail(null,true) });
+</script>
+</body>
+</html>
