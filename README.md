@@ -11,8 +11,6 @@
 
 **→ [https://jeffmodeler.github.io/nara-bim-sensei](https://jeffmodeler.github.io/nara-bim-sensei)**
 
-Senha de acesso: `nara2026`
-
 ---
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?style=flat-square)](https://python.org)
