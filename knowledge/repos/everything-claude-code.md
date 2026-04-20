@@ -1,32 +1,57 @@
+---
+title: everything-claude-code
+tags: [high, agent-framework, skills, hooks, claude-code]
+url: https://github.com/affaan-m/everything-claude-code
+author: affaan-m
+stars: 161000
+priority: high
+bim_relevance: high
+use_for_claude_self: true
+use_for_agent_memory: true
+status: active
+date_added: 2026-04-20
+---
+
 # everything-claude-code
 
-**URL**: https://github.com/affaan-m/everything-claude-code
-**Stars**: ~161k | **Adicionado**: 2026-04-20
+> Sistema de performance para agentes AI — o core do [[CLAUDE]]
 
-## O que e
+## O que é
 
-Sistema de performance para agentes AI. Plugin instalavel para Claude Code com skills, hooks, regras, comandos e configuracoes MCP prontas para producao.
+Plugin instalável para Claude Code com skills, hooks, regras, comandos e configurações MCP prontas para produção. Suporta Claude Code, Cursor, Codex e OpenCode.
 
 ## Melhora o Claude?
 
-**Sim - e o principal mecanismo.**
-Regras moldam como o Claude raciocina. Instincts definem comportamentos automaticos por contexto.
+**Sim — é o principal mecanismo.**
+Regras moldam como o Claude raciocina. Instincts definem comportamentos automáticos por contexto.
 
-## Memoria de agente?
+## Memória de agente?
 
-**Sim - e o core.**
-Skills sao capacidades reutilizaveis carregadas automaticamente por contexto. Subagentes sao especialistas por tarefa.
+**Sim — é o core.**
+Skills são capacidades reutilizáveis carregadas automaticamente. Subagentes são especialistas por tarefa com contexto isolado.
 
-## Aplicacao BIM
+## Aplicação BIM
 
-- Skill ifc-parser para extracao de dados de modelos
-- Skill clash-report para relatorios automaticos de interferencia
-- Skill cobie-export para geracao de COBie a partir de IFC
-- Subagente disciplina-estrutural com contexto especializado
-- Hooks de validacao automatica pos-modificacao de modelo
+- Skill `ifc-parser` para extração de dados de modelos
+- Skill `clash-report` para relatórios automáticos de interferência
+- Skill `cobie-export` para geração de COBie a partir de IFC
+- Subagente `disciplina-estrutural` com contexto especializado
+- Hooks de validação automática pós-modificação de modelo
 
-## Proximos passos
+## Como instalar
+
+```bash
+/plugin marketplace add https://github.com/affaan-m/everything-claude-code
+/plugin install everything-claude-code@everything-claude-code
+```
+
+## Links relacionados
+
+- [[claude-howto]] — guia de uso com templates
+- [[CLAUDE]] — identidade da Nara
+
+## Próximos passos
 
 - [ ] Instalar como plugin
 - [ ] Criar primeira skill BIM
-- [ ] Configurar hooks de sessao
+- [ ] Configurar hooks de sessão

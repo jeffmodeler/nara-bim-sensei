@@ -1,0 +1,14 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": true,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    { "query": "tag:#high", "color": { "a": 1, "rgb": 5025616 } },
+    { "query": "tag:#medium", "color": { "a": 1, "rgb": 15765632 } },
+    { "query": "tag:#bim-reference", "color": { "a": 1, "rgb": 3500733 } }
+  ]
+}
