@@ -9,13 +9,12 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#08090d;--surf:#0f1118;--surf2:#161b27;
+  --bg:#08090d;--surf:#0f1118;--surf2:#161b27;--surf3:#1d2436;
   --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
   --text:#e4e8f0;--muted:#5a6280;--dim:#2a3050;
   --teal:#00c896;--teal-d:rgba(0,200,150,0.10);
   --amber:#f0a500;--amber-d:rgba(240,165,0,0.10);
-  --coral:#ff6055;--coral-d:rgba(255,96,85,0.10);
-  --blue:#5599ff;--blue-d:rgba(85,153,255,0.10);
+  --coral:#ff6055;--blue:#5599ff;--blue-d:rgba(85,153,255,0.10);
   --violet:#9b72ff;--violet-d:rgba(155,114,255,0.10);
   --r:10px;--rs:6px
 }
@@ -25,12 +24,14 @@ body::before{content:'';position:fixed;inset:0;background:
   radial-gradient(ellipse 70% 40% at 15% 0%,rgba(0,200,150,0.05) 0%,transparent 60%),
   radial-gradient(ellipse 50% 35% at 85% 90%,rgba(85,153,255,0.04) 0%,transparent 60%);
   pointer-events:none;z-index:0}
+
+/* ── LOGIN ── */
 #login-screen{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:var(--bg)}
 #login-screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(0,200,150,0.06) 0%,transparent 70%)}
 .login-box{position:relative;z-index:1;width:100%;max-width:380px;padding:48px 40px;background:var(--surf);border:1px solid var(--border2);border-radius:20px;animation:fadeUp .5s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .login-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#00a8ff);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 20px;box-shadow:0 0 40px rgba(0,200,150,0.25)}
-.login-name{font-family:'Fraunces',serif;font-size:26px;font-weight:700;text-align:center;letter-spacing:-0.02em;color:var(--text);margin-bottom:4px}
+.login-name{font-family:'Fraunces',serif;font-size:26px;font-weight:700;text-align:center;letter-spacing:-0.02em;margin-bottom:4px}
 .login-role{text-align:center;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:32px}
 .login-field{margin-bottom:12px}
 .login-field input{width:100%;padding:13px 16px;background:var(--surf2);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
@@ -40,123 +41,288 @@ body::before{content:'';position:fixed;inset:0;background:
 .login-btn:hover{opacity:.88}
 .login-error{display:none;color:var(--coral);font-size:12px;text-align:center;margin-top:10px;font-family:'DM Mono',monospace}
 .login-hint{margin-top:20px;font-size:11px;color:var(--muted);text-align:center;font-family:'DM Mono',monospace}
+
+/* ── APP LAYOUT ── */
 #app{display:none;position:relative;z-index:1;min-height:100vh}
-.header{position:sticky;top:0;z-index:50;background:rgba(8,9,13,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.header{position:sticky;top:0;z-index:50;background:rgba(8,9,13,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between}
 .header-left{display:flex;align-items:center;gap:12px}
 .header-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#00a8ff);display:flex;align-items:center;justify-content:center;font-size:15px}
 .header-name{font-family:'Fraunces',serif;font-size:18px;font-weight:600;letter-spacing:-0.01em}
 .header-name span{color:var(--teal)}
 .header-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border2);border-radius:20px;padding:2px 8px}
-.header-right{display:flex;align-items:center;gap:10px}
-.header-logout{padding:5px 12px;background:transparent;border:1px solid var(--border2);border-radius:20px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;letter-spacing:0.06em;transition:all .2s}
-.header-logout:hover{border-color:var(--coral);color:var(--coral)}
-.shell{max-width:1160px;margin:0 auto;padding:40px 32px 80px}
+.header-right{display:flex;align-items:center;gap:8px}
+.header-btn{padding:5px 12px;background:transparent;border:1px solid var(--border2);border-radius:20px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;letter-spacing:0.06em;transition:all .2s;text-decoration:none}
+.header-btn:hover{border-color:var(--teal);color:var(--teal)}
+.header-btn.danger:hover{border-color:var(--coral);color:var(--coral)}
+
+.shell{max-width:1160px;margin:0 auto;padding:40px 28px 80px}
+
+/* ── HERO ── */
 .hero{display:grid;grid-template-columns:1fr auto;align-items:start;gap:24px;margin-bottom:48px;padding-bottom:40px;border-bottom:1px solid var(--border)}
 .hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .hero-eyebrow::before{content:'';display:inline-block;width:20px;height:1px;background:var(--teal)}
-.hero-title{font-family:'Fraunces',serif;font-size:clamp(32px,5vw,52px);font-weight:700;letter-spacing:-0.03em;line-height:1.05;color:var(--text);margin-bottom:14px}
+.hero-title{font-family:'Fraunces',serif;font-size:clamp(30px,5vw,50px);font-weight:700;letter-spacing:-0.03em;line-height:1.05;margin-bottom:14px}
 .hero-title em{color:var(--teal);font-style:italic}
 .hero-sub{color:var(--muted);font-size:14px;max-width:480px;line-height:1.8}
-.hero-meta{display:flex;flex-direction:column;gap:8px;align-items:flex-end;padding-top:4px}
-.chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid}
+.hero-meta{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.chip{display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid}
 .chip-teal{color:var(--teal);border-color:rgba(0,200,150,0.3);background:var(--teal-d)}
 .chip-amber{color:var(--amber);border-color:rgba(240,165,0,0.3);background:var(--amber-d)}
 .chip-blue{color:var(--blue);border-color:rgba(85,153,255,0.3);background:var(--blue-d)}
-.quote-strip{background:var(--surf);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:0 var(--r) var(--r) 0;padding:16px 20px;margin-bottom:40px;display:flex;align-items:center;gap:12px}
-.quote-avatar{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--teal),#00a8ff);display:flex;align-items:center;justify-content:center;font-size:16px}
-.quote-text{font-family:'Fraunces',serif;font-style:italic;font-size:15px;color:var(--text);flex:1}
+.chip-violet{color:var(--violet);border-color:rgba(155,114,255,0.3);background:var(--violet-d)}
+
+/* ── QUOTE ── */
+.quote-strip{background:var(--surf);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:0 var(--r) var(--r) 0;padding:14px 18px;margin-bottom:36px;display:flex;align-items:center;gap:12px}
+.quote-avatar{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--teal),#00a8ff);display:flex;align-items:center;justify-content:center;font-size:15px}
+.quote-text{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--text);flex:1}
 .quote-by{font-family:'DM Mono',monospace;font-size:10px;color:var(--teal);letter-spacing:0.1em;white-space:nowrap}
-.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+
+/* ── ANTHROPIC LEARN BANNER ── */
+.learn-banner{
+  background:linear-gradient(135deg,rgba(0,200,150,0.08) 0%,rgba(85,153,255,0.06) 100%);
+  border:1px solid rgba(0,200,150,0.2);
+  border-radius:var(--r);
+  padding:16px 20px;margin-bottom:36px;
+  display:flex;align-items:center;gap:16px;
+}
+.learn-banner-icon{font-size:24px;flex-shrink:0}
+.learn-banner-body{flex:1}
+.learn-banner-title{font-family:'Fraunces',serif;font-weight:600;font-size:15px;margin-bottom:3px}
+.learn-banner-sub{font-size:12px;color:var(--muted);line-height:1.5}
+.learn-banner-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.learn-link{padding:4px 10px;border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;border:1px solid rgba(0,200,150,0.3);color:var(--teal);text-decoration:none;background:var(--teal-d);transition:opacity .2s}
+.learn-link:hover{opacity:.8}
+
+/* ── FILTERS ── */
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:24px;flex-wrap:wrap}
 .filter-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-right:4px}
-.filter-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;transition:all .2s}
+.filter-btn{padding:5px 13px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;transition:all .2s}
 .filter-btn:hover{border-color:var(--teal);color:var(--teal)}
 .filter-btn.active{background:var(--teal);border-color:var(--teal);color:#000;font-weight:500}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
-.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:20px;cursor:pointer;transition:border-color .25s,transform .2s,box-shadow .25s;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:14px}
+
+/* ── ADD REPO FORM ── */
+.add-repo-section{margin-bottom:28px}
+.add-repo-toggle{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--surf);border:1px dashed var(--border2);border-radius:var(--rs);cursor:pointer;font-size:13px;color:var(--muted);transition:all .2s;width:100%}
+.add-repo-toggle:hover{border-color:var(--teal);color:var(--teal)}
+.add-repo-toggle .icon{font-size:16px}
+.add-repo-form{display:none;margin-top:10px;background:var(--surf2);border:1px solid var(--border2);border-radius:var(--r);padding:20px;animation:fadeUp .2s ease both}
+.add-repo-form.open{display:block}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+.form-input,.form-select{padding:9px 12px;background:var(--surf);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;width:100%}
+.form-input:focus,.form-select:focus{border-color:var(--teal)}
+.form-input::placeholder{color:var(--muted)}
+.form-select option{background:var(--surf2)}
+.form-actions{display:flex;gap:8px;margin-top:4px}
+.btn-sm{padding:8px 16px;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;font-weight:500;transition:opacity .2s}
+.btn-sm-primary{background:var(--teal);color:#000;border:none}
+.btn-sm-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2)}
+.btn-sm-ghost:hover{border-color:var(--border2);color:var(--text)}
+.add-repo-success{display:none;padding:10px 14px;background:rgba(0,200,150,0.1);border:1px solid rgba(0,200,150,0.3);border-radius:var(--rs);font-size:12px;color:var(--teal);margin-top:10px;font-family:'DM Mono',monospace}
+
+/* ── CARDS ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:13px}
+.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:border-color .25s,transform .2s,box-shadow .25s;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0}
 .card[data-priority="high"]::before{background:var(--teal)}
 .card[data-priority="mid"]::before{background:var(--amber)}
 .card[data-priority="low"]::before{background:var(--dim)}
-.card:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.card.new-card::before{background:var(--violet)}
+.card:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .card[data-priority="high"]:hover{border-color:rgba(0,200,150,.3)}
 .card[data-priority="mid"]:hover{border-color:rgba(240,165,0,.3)}
-.card[data-priority="low"]:hover{border-color:var(--border2)}
-.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.card-idx{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.1em;margin-bottom:4px}
-.card-name{font-family:'Fraunces',serif;font-size:17px;font-weight:600;line-height:1.2}
+.card.new-card:hover{border-color:rgba(155,114,255,.3)}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.card-idx{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.1em;margin-bottom:3px}
+.card-name{font-family:'Fraunces',serif;font-size:16px;font-weight:600;line-height:1.2}
 .card-author{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px}
-.card-stars{font-family:'DM Mono',monospace;font-size:11px;color:var(--amber);white-space:nowrap;padding-top:2px}
-.card-desc{font-size:13px;color:var(--muted);line-height:1.65}
-.card-bim{background:var(--surf2);border:1px solid var(--border);border-radius:var(--rs);padding:11px 14px}
-.card-bim-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+.card-stars{font-family:'DM Mono',monospace;font-size:11px;color:var(--amber);white-space:nowrap}
+.card-desc{font-size:12px;color:var(--muted);line-height:1.65}
+.card-bim{background:var(--surf2);border:1px solid var(--border);border-radius:var(--rs);padding:10px 13px}
+.card-bim-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
 .card-bim-text{font-size:12px;line-height:1.6;color:var(--text)}
-.card-tags{display:flex;flex-wrap:wrap;gap:5px}
-.tag{padding:2px 8px;border-radius:4px;font-size:10px;font-family:'DM Mono',monospace;border:1px solid;letter-spacing:.04em}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{padding:2px 7px;border-radius:4px;font-size:10px;font-family:'DM Mono',monospace;border:1px solid;letter-spacing:.04em}
 .tag-both{color:var(--teal);border-color:rgba(0,200,150,.3);background:var(--teal-d)}
 .tag-self{color:var(--violet);border-color:rgba(155,114,255,.3);background:var(--violet-d)}
 .tag-agent{color:var(--blue);border-color:rgba(85,153,255,.3);background:var(--blue-d)}
+.tag-learn{color:var(--amber);border-color:rgba(240,165,0,.3);background:var(--amber-d)}
 .card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:4px;border-top:1px solid var(--border)}
 .card-effort{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace}
 .card-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--teal);text-decoration:none;font-family:'DM Mono',monospace;opacity:.7;transition:opacity .2s}
 .card-link:hover{opacity:1}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:100;align-items:flex-end;justify-content:center}
-.overlay.open{display:flex}
-.detail{background:var(--surf);border:1px solid var(--border2);border-bottom:none;border-radius:20px 20px 0 0;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;padding:36px 36px 52px;position:relative;animation:slideUp .3s cubic-bezier(.22,1,.36,1)}
-@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
-.detail-close{position:absolute;top:20px;right:20px;width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.detail-close:hover{background:var(--border2);color:var(--text)}
-.detail-name{font-family:'Fraunces',serif;font-size:28px;font-weight:700;letter-spacing:-0.02em;margin-bottom:4px}
-.detail-repo{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:20px}
-.detail-desc{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:22px}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-@media(max-width:540px){.detail-grid{grid-template-columns:1fr}}
-.dblock{background:var(--surf2);border:1px solid var(--border);border-radius:var(--rs);padding:14px 16px}
-.dblock-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
-.dblock-label.teal{color:var(--teal)}.dblock-label.amber{color:var(--amber)}
-.dblock ul{list-style:none}
-.dblock li{font-size:12px;line-height:1.65;color:var(--muted);padding-left:14px;position:relative;margin-bottom:3px}
-.dblock li::before{content:'›';position:absolute;left:0;color:var(--teal)}
-.use-section{margin-top:18px}
-.use-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.use-row{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:var(--rs);border:1px solid var(--border);margin-bottom:8px}
-.use-icon{width:28px;height:28px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px}
-.use-icon.self{background:var(--violet-d)}.use-icon.agent{background:var(--blue-d)}
-.use-row-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
-.use-row-label.self{color:var(--violet)}.use-row-label.agent{color:var(--blue)}
-.use-row-text{font-size:12px;color:var(--text);line-height:1.65}
-.use-row-detail{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.6}
-.detail-cta{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
-.btn-primary{padding:10px 20px;background:var(--teal);color:#000;border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-weight:500;font-size:13px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:opacity .2s}
-.btn-primary:hover{opacity:.85}
-.btn-ghost{padding:10px 20px;background:transparent;color:var(--text);border:1px solid var(--border2);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;text-decoration:none;transition:border-color .2s}
-.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
-.section{margin-top:56px;padding-top:40px;border-top:1px solid var(--border)}
-.section-title{font-family:'Fraunces',serif;font-weight:700;font-size:22px;letter-spacing:-0.02em;margin-bottom:24px}
+
+/* ── MATRIX ── */
+.section{margin-top:52px;padding-top:36px;border-top:1px solid var(--border)}
+.section-title{font-family:'Fraunces',serif;font-weight:700;font-size:21px;letter-spacing:-0.02em;margin-bottom:22px}
 .section-title span{color:var(--amber)}
+.section-title.teal span{color:var(--teal)}
 .matrix{width:100%;border-collapse:collapse;font-size:12px}
 .matrix th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)}
-.matrix td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text)}
+.matrix td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
 .matrix tr:hover td{background:var(--surf2)}
 .matrix .cn{font-weight:500;font-family:'DM Mono',monospace;font-size:11px}
 .yes{color:var(--teal)}.part{color:var(--amber)}.no{color:var(--dim)}
+
+/* ── ROADMAP ── */
 .roadmap-title span{color:var(--teal)}
-.timeline{position:relative;padding-left:32px}
-.timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--teal),var(--dim) 85%)}
-.tl-item{position:relative;margin-bottom:28px}
-.tl-dot{position:absolute;left:-28px;top:5px;width:14px;height:14px;border-radius:50%;border:2px solid var(--teal);background:var(--bg)}
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--teal),var(--dim) 85%)}
+.tl-item{position:relative;margin-bottom:24px}
+.tl-dot{position:absolute;left:-26px;top:5px;width:13px;height:13px;border-radius:50%;border:2px solid var(--teal);background:var(--bg)}
 .tl-dot.done{background:var(--teal)}
-.tl-period{font-family:'DM Mono',monospace;font-size:9px;color:var(--teal);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
-.tl-label{font-family:'Fraunces',serif;font-weight:600;font-size:15px;margin-bottom:4px}
+.tl-period{font-family:'DM Mono',monospace;font-size:9px;color:var(--teal);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px}
+.tl-label{font-family:'Fraunces',serif;font-weight:600;font-size:14px;margin-bottom:3px}
 .tl-desc{font-size:12px;color:var(--muted);line-height:1.65}
-.footer{margin-top:64px;padding:24px 32px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
+
+/* ── DETAIL PANEL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:100;align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.detail{background:var(--surf);border:1px solid var(--border2);border-bottom:none;border-radius:20px 20px 0 0;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;padding:32px 32px 48px;position:relative;animation:slideUp .3s cubic-bezier(.22,1,.36,1)}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.detail-close{position:absolute;top:18px;right:18px;width:30px;height:30px;border-radius:50%;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.detail-close:hover{background:var(--border2);color:var(--text)}
+.detail-name{font-family:'Fraunces',serif;font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-bottom:4px}
+.detail-repo{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:18px}
+.detail-desc{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:20px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+@media(max-width:540px){.detail-grid{grid-template-columns:1fr}}
+.dblock{background:var(--surf2);border:1px solid var(--border);border-radius:var(--rs);padding:13px 15px}
+.dblock-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px}
+.dblock-label.teal{color:var(--teal)}.dblock-label.amber{color:var(--amber)}
+.dblock ul{list-style:none}
+.dblock li{font-size:12px;line-height:1.65;color:var(--muted);padding-left:13px;position:relative;margin-bottom:3px}
+.dblock li::before{content:'›';position:absolute;left:0;color:var(--teal)}
+.use-section{margin-top:16px}
+.use-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.use-row{display:flex;gap:10px;align-items:flex-start;padding:11px;border-radius:var(--rs);border:1px solid var(--border);margin-bottom:7px}
+.use-icon{width:26px;height:26px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px}
+.use-icon.self{background:var(--violet-d)}.use-icon.agent{background:var(--blue-d)}
+.use-row-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
+.use-row-label.self{color:var(--violet)}.use-row-label.agent{color:var(--blue)}
+.use-row-text{font-size:12px;color:var(--text);line-height:1.6}
+.use-row-detail{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.55}
+.detail-cta{margin-top:20px;display:flex;gap:8px;flex-wrap:wrap}
+.btn-primary{padding:9px 18px;background:var(--teal);color:#000;border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-weight:500;font-size:13px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:opacity .2s}
+.btn-primary:hover{opacity:.85}
+.btn-ghost{padding:9px 18px;background:transparent;color:var(--text);border:1px solid var(--border2);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;text-decoration:none;transition:border-color .2s}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ── CHATBOT ── */
+#chat-fab{
+  position:fixed;bottom:28px;right:28px;z-index:150;
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),#00a8ff);
+  border:none;cursor:pointer;
+  box-shadow:0 4px 24px rgba(0,200,150,0.4);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  transition:transform .2s,box-shadow .2s;
+}
+#chat-fab:hover{transform:scale(1.08);box-shadow:0 6px 32px rgba(0,200,150,0.5)}
+#chat-fab .notif{position:absolute;top:2px;right:2px;width:10px;height:10px;border-radius:50%;background:var(--coral);border:2px solid var(--bg)}
+
+#chat-window{
+  position:fixed;bottom:94px;right:28px;z-index:150;
+  width:360px;max-width:calc(100vw - 40px);
+  background:var(--surf);border:1px solid var(--border2);
+  border-radius:16px;
+  box-shadow:0 16px 60px rgba(0,0,0,.6);
+  display:none;flex-direction:column;
+  overflow:hidden;
+  animation:chatIn .25s cubic-bezier(.22,1,.36,1);
+}
+@keyframes chatIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+#chat-window.open{display:flex}
+
+.chat-header{
+  padding:14px 16px;
+  background:var(--surf2);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.chat-header-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#00a8ff);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.chat-header-name{font-family:'Fraunces',serif;font-weight:600;font-size:14px;flex:1}
+.chat-header-status{font-size:10px;color:var(--teal);font-family:'DM Mono',monospace}
+.chat-close{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 6px;transition:color .2s;margin-left:auto}
+.chat-close:hover{color:var(--text)}
+
+.chat-messages{
+  flex:1;overflow-y:auto;padding:14px;
+  display:flex;flex-direction:column;gap:10px;
+  min-height:260px;max-height:360px;
+}
+.chat-msg{display:flex;gap:8px;align-items:flex-start;animation:fadeUp .2s ease both}
+.chat-msg.user{flex-direction:row-reverse}
+.chat-msg-avatar{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px}
+.chat-msg.nara .chat-msg-avatar{background:linear-gradient(135deg,var(--teal),#00a8ff)}
+.chat-msg.user .chat-msg-avatar{background:var(--surf3);font-size:11px;color:var(--muted)}
+.chat-bubble{
+  max-width:78%;padding:9px 12px;border-radius:12px;
+  font-size:12px;line-height:1.6;
+}
+.chat-msg.nara .chat-bubble{background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:4px 12px 12px 12px}
+.chat-msg.user .chat-bubble{background:var(--teal);color:#000;border-radius:12px 4px 12px 12px}
+.chat-typing{display:flex;gap:3px;align-items:center;padding:8px 12px}
+.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+.chat-typing span:nth-child(2){animation-delay:.2s}
+.chat-typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+.chat-input-area{
+  padding:10px 12px;
+  border-top:1px solid var(--border);
+  display:flex;gap:8px;align-items:flex-end;
+}
+.chat-input{
+  flex:1;padding:8px 12px;
+  background:var(--surf2);border:1px solid var(--border);
+  border-radius:var(--rs);color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:13px;
+  outline:none;resize:none;transition:border-color .2s;
+  max-height:100px;overflow-y:auto;
+  line-height:1.5;
+}
+.chat-input:focus{border-color:var(--teal)}
+.chat-input::placeholder{color:var(--muted)}
+.chat-send{
+  width:34px;height:34px;border-radius:var(--rs);
+  background:var(--teal);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:opacity .2s;flex-shrink:0;
+}
+.chat-send:hover{opacity:.85}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:5px;padding:0 12px 10px}
+.sug-btn{
+  padding:4px 10px;background:var(--surf3);border:1px solid var(--border);
+  border-radius:20px;font-size:10px;font-family:'DM Mono',monospace;
+  color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.sug-btn:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ── FOOTER ── */
+.footer{margin-top:60px;padding:22px 28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
 .footer a{color:var(--teal);text-decoration:none;opacity:.7;transition:opacity .2s}
 .footer a:hover{opacity:1}
-@media(max-width:640px){.header{padding:0 20px}.shell{padding:28px 20px 60px}.hero{grid-template-columns:1fr}.hero-meta{align-items:flex-start;flex-direction:row;flex-wrap:wrap}.cards-grid{grid-template-columns:1fr}.detail{padding:24px 20px 44px}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .header{padding:0 16px}
+  .shell{padding:28px 16px 80px}
+  .hero{grid-template-columns:1fr}
+  .hero-meta{align-items:flex-start;flex-direction:row;flex-wrap:wrap}
+  .cards-grid{grid-template-columns:1fr}
+  .detail{padding:24px 18px 44px}
+  #chat-window{right:16px;width:calc(100vw - 32px)}
+  #chat-fab{right:16px;bottom:16px}
+}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--dim);border-radius:4px}
 </style>
 </head>
 <body>
 
+<!-- ══ LOGIN ══ -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-avatar">🎓</div>
@@ -172,38 +338,101 @@ body::before{content:'';position:fixed;inset:0;background:
   </div>
 </div>
 
+<!-- ══ APP ══ -->
 <div id="app">
   <header class="header">
     <div class="header-left">
       <div class="header-avatar">🎓</div>
       <div><div class="header-name">Nara <span>BIM Sensei</span></div></div>
-      <span class="header-tag">v0.1.0</span>
+      <span class="header-tag">v0.2.0</span>
     </div>
     <div class="header-right">
-      <a href="https://github.com/jeffmodeler/nara-bim-sensei" target="_blank"
-         style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-decoration:none;opacity:.7"
-         onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">github ↗</a>
-      <button class="header-logout" onclick="doLogout()">sair</button>
+      <a class="header-btn" href="https://www.anthropic.com/learn" target="_blank">🎓 Learn</a>
+      <a class="header-btn" href="https://github.com/jeffmodeler/nara-bim-sensei" target="_blank">github ↗</a>
+      <button class="header-btn danger" onclick="doLogout()">sair</button>
     </div>
   </header>
+
   <div class="shell">
+
+    <!-- Hero -->
     <div class="hero">
       <div>
-        <p class="hero-eyebrow">Knowledge Base · AI × BIM</p>
+        <p class="hero-eyebrow">Knowledge Base · AI × BIM · Obsidian Vault</p>
         <h1 class="hero-title">Ferramentas AI<br>para <em>Workflow BIM</em></h1>
-        <p class="hero-sub">Repositórios curados com análise técnica — o que melhora o comportamento do Claude e o que alimenta a memória dos agentes BIM.</p>
+        <p class="hero-sub">Repositórios curados com análise técnica — o que melhora o Claude e o que alimenta a memória dos agentes BIM. Use o chat da Nara para tirar dúvidas.</p>
       </div>
       <div class="hero-meta">
-        <span class="chip chip-teal">6 Repositórios</span>
+        <span class="chip chip-teal">7 Repositórios</span>
         <span class="chip chip-amber">Abr 2026</span>
         <span class="chip chip-blue">ISO 19650</span>
+        <span class="chip chip-violet">Obsidian Vault</span>
       </div>
     </div>
-    <div class="quote-strip">
-      <div class="quote-avatar">🎓</div>
-      <div class="quote-text">"Antes de recomendar qualquer ferramenta, eu verifico se ela realmente serve ao seu workflow. Não ao workflow genérico — ao seu."</div>
-      <div class="quote-by">— Nara, BIM Sensei</div>
+
+    <!-- Anthropic Learn Banner -->
+    <div class="learn-banner">
+      <div class="learn-banner-icon">🎓</div>
+      <div class="learn-banner-body">
+        <div class="learn-banner-title">Anthropic Academy — cursos oficiais</div>
+        <div class="learn-banner-sub">Claude Code in Action · Claude 101 · MCP · AI Fluency. Certificados de conclusão disponíveis.</div>
+        <div class="learn-banner-links">
+          <a class="learn-link" href="https://www.anthropic.com/learn" target="_blank">Academy ↗</a>
+          <a class="learn-link" href="https://anthropic.skilljar.com/" target="_blank">Todos os cursos ↗</a>
+          <a class="learn-link" href="https://www.anthropic.com/learn/build-with-claude" target="_blank">Build with Claude ↗</a>
+          <a class="learn-link" href="https://www.anthropic.com/learn/claude-for-work" target="_blank">Claude for Work ↗</a>
+        </div>
+      </div>
     </div>
+
+    <!-- Add Repo -->
+    <div class="add-repo-section">
+      <button class="add-repo-toggle" onclick="toggleAddRepo()">
+        <span class="icon">＋</span>
+        <span>Adicionar novo repositório ao knowledge base</span>
+      </button>
+      <div class="add-repo-form" id="addRepoForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">URL do GitHub *</label>
+            <input class="form-input" id="fr-url" placeholder="https://github.com/autor/repo" type="url">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ID (kebab-case) *</label>
+            <input class="form-input" id="fr-id" placeholder="meu-repo">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Prioridade</label>
+            <select class="form-select" id="fr-prio">
+              <option value="high">Alta</option>
+              <option value="medium" selected>Média</option>
+              <option value="low">Baixa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Relevância BIM</label>
+            <select class="form-select" id="fr-bim">
+              <option value="high">Alta</option>
+              <option value="medium" selected>Média</option>
+              <option value="low">Baixa</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label class="form-label">Nota rápida</label>
+          <input class="form-input" id="fr-note" placeholder="Por que este repo é relevante?">
+        </div>
+        <div class="form-actions">
+          <button class="btn-sm btn-sm-primary" onclick="submitAddRepo()">Adicionar ao knowledge base</button>
+          <button class="btn-sm btn-sm-ghost" onclick="toggleAddRepo()">Cancelar</button>
+        </div>
+        <div class="add-repo-success" id="addRepoSuccess"></div>
+      </div>
+    </div>
+
+    <!-- Filters -->
     <div class="filter-bar">
       <span class="filter-label">Filtrar</span>
       <button class="filter-btn active" data-filter="all">Todos</button>
@@ -212,50 +441,70 @@ body::before{content:'';position:fixed;inset:0;background:
       <button class="filter-btn" data-filter="both">Ambos</button>
       <button class="filter-btn" data-filter="high">Alta prioridade</button>
     </div>
-    <div class="cards-grid">
+
+    <!-- Cards -->
+    <div class="cards-grid" id="cardsGrid">
+
       <div class="card" data-priority="high" data-use="both" onclick="openDetail('ecc')">
         <div class="card-header"><div><div class="card-idx">01 / PLUGIN</div><div class="card-name">everything-claude-code</div><div class="card-author">affaan-m · 161k ★</div></div><span class="card-stars">★ 161k</span></div>
         <p class="card-desc">Sistema de performance para agentes — skills, hooks, memória e segurança para Claude Code, Cursor, Codex e OpenCode.</p>
-        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Subagentes por disciplina, skills de IFC/COBie, hooks automáticos de validação de modelo.</div></div>
+        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Subagentes por disciplina, skills de IFC/COBie, hooks automáticos de validação.</div></div>
         <div class="card-tags"><span class="tag tag-both">Claude + Agente</span><span class="tag tag-agent">Skills BIM</span></div>
         <div class="card-footer"><span class="card-effort">⚡ Impacto imediato</span><a class="card-link" href="https://github.com/affaan-m/everything-claude-code" target="_blank" onclick="event.stopPropagation()">github ↗</a></div>
       </div>
+
       <div class="card" data-priority="high" data-use="self" onclick="openDetail('howto')">
         <div class="card-header"><div><div class="card-idx">02 / GUIA</div><div class="card-name">claude-howto</div><div class="card-author">luongnv89 · v2.1.112</div></div></div>
-        <p class="card-desc">Guia visual com templates copy-paste para dominar Claude Code — slash commands, memória, subagentes, hooks, MCP e CLI.</p>
-        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Templates prontos para relatórios de clash, CLAUDE.md padrão BIM, subagentes por disciplina.</div></div>
+        <p class="card-desc">Guia visual com templates copy-paste — slash commands, memória, subagentes, hooks, MCP e CLI avançada.</p>
+        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Templates para clash reports, CLAUDE.md BIM, subagentes por disciplina.</div></div>
         <div class="card-tags"><span class="tag tag-self">Melhora o Claude</span><span class="tag tag-self">Templates</span></div>
         <div class="card-footer"><span class="card-effort">📚 11-13h de rota</span><a class="card-link" href="https://github.com/luongnv89/claude-howto" target="_blank" onclick="event.stopPropagation()">github ↗</a></div>
       </div>
+
       <div class="card" data-priority="high" data-use="self" onclick="openDetail('llmtk')">
         <div class="card-header"><div><div class="card-idx">03 / CATÁLOGO</div><div class="card-name">llm-engineer-toolkit</div><div class="card-author">KalyanKS-NLP · 120+ libs</div></div></div>
-        <p class="card-desc">Catálogo curado de 120+ bibliotecas LLM por categoria: RAG, agentes, inferência, avaliação e monitoring.</p>
-        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Referência para escolher stack RAG (LlamaIndex) para consultas semânticas em dados IFC.</div></div>
+        <p class="card-desc">Catálogo curado de 120+ bibliotecas LLM: RAG, agentes, inferência, avaliação e monitoring.</p>
+        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Stack RAG (LlamaIndex) para consultas semânticas em dados IFC.</div></div>
         <div class="card-tags"><span class="tag tag-self">Decisão técnica</span><span class="tag tag-self">Stack RAG</span></div>
         <div class="card-footer"><span class="card-effort">🗺 Mapa de decisão</span><a class="card-link" href="https://github.com/KalyanKS-NLP/llm-engineer-toolkit" target="_blank" onclick="event.stopPropagation()">github ↗</a></div>
       </div>
+
       <div class="card" data-priority="mid" data-use="agent" onclick="openDetail('maestro')">
         <div class="card-header"><div><div class="card-idx">04 / ORQUESTRADOR</div><div class="card-name">maestro</div><div class="card-author">RunMaestro</div></div></div>
-        <p class="card-desc">Desktop app estilo Bloomberg Terminal. Multi-agente paralelo, playbooks, sessões autônomas de até 24h.</p>
-        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Agentes paralelos por disciplina BIM, playbooks de coordenação, CLI headless para CI/CD.</div></div>
+        <p class="card-desc">Bloomberg Terminal para agentes CLI. Multi-agente paralelo, playbooks, sessões autônomas de até 24h.</p>
+        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Agentes paralelos por disciplina BIM, playbooks de coordenação.</div></div>
         <div class="card-tags"><span class="tag tag-agent">Multi-agente</span><span class="tag tag-agent">Playbooks</span></div>
         <div class="card-footer"><span class="card-effort">🖥 App desktop</span><a class="card-link" href="https://github.com/its-maestro-baby/maestro" target="_blank" onclick="event.stopPropagation()">github ↗</a></div>
       </div>
+
       <div class="card" data-priority="mid" data-use="self" onclick="openDetail('aie')">
         <div class="card-header"><div><div class="card-idx">05 / CURSO</div><div class="card-name">ai-engineering-from-scratch</div><div class="card-author">rohitg00 · 260 lições</div></div></div>
-        <p class="card-desc">260+ lições, 20 fases, ~290h. De álgebra linear a swarms de agentes. Cada lição produz artefatos reutilizáveis.</p>
-        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Fases 7-15 prioritárias: NLP para documentação técnica, CV para inspeção, RL para cronograma.</div></div>
+        <p class="card-desc">260+ lições, 20 fases, ~290h. De álgebra linear a swarms de agentes autônomos.</p>
+        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Fases 7-15: NLP para documentação, CV para inspeção, RL para cronograma.</div></div>
         <div class="card-tags"><span class="tag tag-self">Formação</span><span class="tag tag-self">ML/DL</span></div>
         <div class="card-footer"><span class="card-effort">⏳ Longo prazo</span><a class="card-link" href="https://github.com/rohitg00/ai-engineering-from-scratch" target="_blank" onclick="event.stopPropagation()">github ↗</a></div>
       </div>
+
       <div class="card" data-priority="low" data-use="agent" onclick="openDetail('sdn')">
         <div class="card-header"><div><div class="card-idx">06 / BIBLIOTECA</div><div class="card-name">skillsdotnet</div><div class="card-author">PederHP · C# / .NET</div></div></div>
-        <p class="card-desc">Implementação C# de agent skills com integração MCP. Carregamento progressivo via skill:// URI.</p>
-        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Integração de skills de IA em add-ins Revit e Navisworks via MCP nativo .NET.</div></div>
+        <p class="card-desc">Agent skills em C# com integração MCP. Carregamento progressivo via skill:// URI.</p>
+        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Skills de IA em add-ins Revit e Navisworks via MCP nativo .NET.</div></div>
         <div class="card-tags"><span class="tag tag-agent">C# / .NET</span><span class="tag tag-agent">MCP Skills</span></div>
         <div class="card-footer"><span class="card-effort">🔧 Nicho .NET</span><a class="card-link" href="https://github.com/PederHP/skillsdotnet" target="_blank" onclick="event.stopPropagation()">github ↗</a></div>
       </div>
-    </div>
+
+      <!-- Anthropic Learn Card -->
+      <div class="card new-card" data-priority="high" data-use="self" onclick="openDetail('learn')">
+        <div class="card-header"><div><div class="card-idx">07 / ACADEMIA</div><div class="card-name">Anthropic Academy</div><div class="card-author">anthropic.com/learn</div></div><span style="font-size:20px">🎓</span></div>
+        <p class="card-desc">Cursos oficiais da Anthropic: Claude Code in Action, Claude 101, MCP, AI Fluency. Com certificados de conclusão.</p>
+        <div class="card-bim"><div class="card-bim-label">✦ Aplicação BIM</div><div class="card-bim-text">Claude Code course ensina criar skills BIM. MCP course: conectar Revit/IFC como servidor MCP.</div></div>
+        <div class="card-tags"><span class="tag tag-self">Cursos oficiais</span><span class="tag tag-learn">Certificados</span></div>
+        <div class="card-footer"><span class="card-effort">🏅 Certificados</span><a class="card-link" href="https://www.anthropic.com/learn" target="_blank" onclick="event.stopPropagation()">acessar ↗</a></div>
+      </div>
+
+    </div><!-- /cards-grid -->
+
+    <!-- Matrix -->
     <div class="section">
       <h2 class="section-title">Matriz de <span>Decisão</span></h2>
       <table class="matrix">
@@ -267,138 +516,287 @@ body::before{content:'';position:fixed;inset:0;background:
           <tr><td class="cn">maestro</td><td><span class="no">○ Não</span></td><td><span class="yes">● Sim</span></td><td><span class="part">◐ Playbooks</span></td><td><span class="no">○ Não</span></td><td><span class="yes">● Core</span></td><td><span style="color:var(--amber)">Médio</span></td></tr>
           <tr><td class="cn">ai-engineering-from-scratch</td><td><span class="yes">● Formação</span></td><td><span class="no">○ Não</span></td><td><span class="no">○ Não</span></td><td><span class="yes">● ML/RAG</span></td><td><span class="yes">● Swarms</span></td><td><span style="color:var(--coral)">Alto (290h)</span></td></tr>
           <tr><td class="cn">skillsdotnet</td><td><span class="no">○ Não</span></td><td><span class="yes">● Sim (C#)</span></td><td><span class="part">◐ Add-ins</span></td><td><span class="no">○ Não</span></td><td><span class="no">○ Não</span></td><td><span style="color:var(--amber)">Médio</span></td></tr>
+          <tr><td class="cn">Anthropic Academy</td><td><span class="yes">● Cursos</span></td><td><span class="no">○ Não</span></td><td><span class="part">◐ Via cursos</span></td><td><span class="no">○ Não</span></td><td><span class="no">○ Não</span></td><td><span style="color:var(--teal)">Baixo</span></td></tr>
         </tbody>
       </table>
     </div>
+
+    <!-- Roadmap -->
     <div class="section">
       <h2 class="section-title roadmap-title">Roadmap de <span>Adoção</span></h2>
       <div class="timeline">
-        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-period">Semana 1–2</div><div class="tl-label">Base: claude-howto + templates</div><div class="tl-desc">Copy-paste de slash commands para relatórios BIM. Configure CLAUDE.md com contexto de projeto.</div></div>
-        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-period">Semana 2–4</div><div class="tl-label">Plugin: everything-claude-code</div><div class="tl-desc">Instale como plugin. Crie skills para IFC parsing, Revit API e clash detection.</div></div>
-        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Mês 2</div><div class="tl-label">Stack RAG: llm-engineer-toolkit</div><div class="tl-desc">Use o catálogo para escolher LlamaIndex. Monte pipeline de consultas semânticas sobre dados BIM.</div></div>
-        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Mês 2–3</div><div class="tl-label">Orquestração: maestro</div><div class="tl-desc">Playbooks para workflows repetíveis. Agentes paralelos por disciplina. CLI headless para CI/CD.</div></div>
-        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Paralelo</div><div class="tl-label">Formação: ai-engineering-from-scratch</div><div class="tl-desc">Fases 7–15: NLP para documentação, computer vision para inspeção, RL para cronograma.</div></div>
+        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-period">Semana 1–2</div><div class="tl-label">Base: claude-howto + Anthropic Academy</div><div class="tl-desc">Templates copy-paste para relatórios BIM + cursos Claude 101 e Claude Code in Action.</div></div>
+        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-period">Semana 2–4</div><div class="tl-label">Plugin: everything-claude-code</div><div class="tl-desc">Instale como plugin. Skills para IFC parsing, Revit API e clash detection.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Mês 2</div><div class="tl-label">Stack RAG: llm-engineer-toolkit</div><div class="tl-desc">LlamaIndex para consultas semânticas sobre dados do modelo BIM.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Mês 2–3</div><div class="tl-label">Orquestração: maestro</div><div class="tl-desc">Playbooks e agentes paralelos por disciplina BIM.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Paralelo</div><div class="tl-label">Formação: ai-engineering-from-scratch</div><div class="tl-desc">Fases 7–15: NLP, CV para inspeção, RL para cronograma.</div></div>
       </div>
     </div>
-  </div>
+
+  </div><!-- /shell -->
+
   <footer class="footer">
-    <span>Nara BIM Sensei · v0.1.0 · jeffmodeler</span>
-    <div style="display:flex;gap:16px">
+    <span>Nara BIM Sensei · v0.2.0 · jeffmodeler · Obsidian Vault</span>
+    <div style="display:flex;gap:14px">
       <a href="https://github.com/jeffmodeler/nara-bim-sensei" target="_blank">github ↗</a>
-      <a href="https://jeffmodeler.github.io/guia-bim-19650/" target="_blank">guia ISO 19650 ↗</a>
+      <a href="https://www.anthropic.com/learn" target="_blank">learn ↗</a>
+      <a href="https://jeffmodeler.github.io/guia-bim-19650/" target="_blank">ISO 19650 ↗</a>
     </div>
   </footer>
+</div><!-- /app -->
+
+<!-- ══ DETAIL PANEL ══ -->
+<div class="overlay" id="overlay" onclick="closeDetail(event)">
+  <div class="detail"><button class="detail-close" onclick="closeDetail(null,true)">✕</button><div id="detailContent"></div></div>
 </div>
 
-<div class="overlay" id="overlay" onclick="closeDetail(event)">
-  <div class="detail" id="detailPanel">
-    <button class="detail-close" onclick="closeDetail(null,true)">✕</button>
-    <div id="detailContent"></div>
+<!-- ══ CHATBOT ══ -->
+<button id="chat-fab" onclick="toggleChat()" title="Falar com a Nara">🎓<span class="notif"></span></button>
+
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-header-avatar">🎓</div>
+    <div>
+      <div class="chat-header-name">Nara</div>
+      <div class="chat-header-status">● BIM Sensei · online</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="sug-btn" onclick="sendSug(this)">O que é EIR?</button>
+    <button class="sug-btn" onclick="sendSug(this)">Por onde começar?</button>
+    <button class="sug-btn" onclick="sendSug(this)">Melhor repo para IFC?</button>
+    <button class="sug-btn" onclick="sendSug(this)">O que estudar primeiro?</button>
+  </div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chatInput" placeholder="Pergunte para a Nara..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+      oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    <button class="chat-send" onclick="sendChat()">➤</button>
   </div>
 </div>
 
 <script>
-/* ── AUTH — senha: nara2026 ─────────────────────────────────────────
-   Lógica simples e síncrona, sem async/hash.
-   Para trocar a senha: edite a string 'nara2026' nas duas linhas abaixo.
-───────────────────────────────────────────────────────────────────── */
+/* ─── AUTH ─── */
 var SENHA = 'nara2026';
-
 function doLogin() {
-  var val = document.getElementById('pwd-input').value;
-  if (val === SENHA) {
-    sessionStorage.setItem('nara_ok', '1');
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+  if (document.getElementById('pwd-input').value === SENHA) {
+    sessionStorage.setItem('nara_ok','1');
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
   } else {
-    var err = document.getElementById('login-error');
-    err.style.display = 'block';
-    document.getElementById('pwd-input').value = '';
+    var e=document.getElementById('login-error');
+    e.style.display='block';
+    document.getElementById('pwd-input').value='';
     document.getElementById('pwd-input').focus();
-    setTimeout(function(){ err.style.display = 'none'; }, 3000);
+    setTimeout(function(){e.style.display='none';},3000);
   }
 }
-
-function doLogout() {
+function doLogout(){
   sessionStorage.removeItem('nara_ok');
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('pwd-input').value = '';
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('pwd-input').value='';
+}
+if(sessionStorage.getItem('nara_ok')==='1'){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
 }
 
-if (sessionStorage.getItem('nara_ok') === '1') {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-}
-
-/* ── FILTERS ─────────────────────────────────────────────────────── */
-document.querySelectorAll('.filter-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+/* ─── FILTERS ─── */
+document.querySelectorAll('.filter-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
     this.classList.add('active');
-    var f = this.dataset.filter;
-    document.querySelectorAll('.card').forEach(function(c) {
-      var use = c.dataset.use, pri = c.dataset.priority, show = true;
-      if (f==='self')  show = use==='self'  || use==='both';
-      if (f==='agent') show = use==='agent' || use==='both';
-      if (f==='both')  show = use==='both';
-      if (f==='high')  show = pri==='high';
-      c.style.display = show ? '' : 'none';
+    var f=this.dataset.filter;
+    document.querySelectorAll('.card').forEach(function(c){
+      var use=c.dataset.use,pri=c.dataset.priority,show=true;
+      if(f==='self')  show=use==='self'||use==='both';
+      if(f==='agent') show=use==='agent'||use==='both';
+      if(f==='both')  show=use==='both';
+      if(f==='high')  show=pri==='high';
+      c.style.display=show?'':'none';
     });
   });
 });
 
-/* ── DETAIL DATA ─────────────────────────────────────────────────── */
-var DATA = {
-  ecc:{name:'everything-claude-code',repo:'github.com/affaan-m/everything-claude-code',color:'var(--teal)',priority:'Alta',desc:'Sistema de performance para agentes AI. Plugin instalável com skills, hooks, regras e configurações MCP prontas para produção.',why:['161k+ stars — ecossistema ativo','Plugin marketplace — 2 comandos para instalar','AgentShield — 102 regras de segurança','Claude Code, Cursor, Codex, OpenCode'],bim:['Skill ifc-parser para extração de dados','Skill clash-report para relatórios automáticos','Skill cobie-export para COBie a partir de IFC','Subagentes por disciplina com contexto isolado'],self_label:'Sim',self_detail:'Regras moldam como o Claude raciocina. Instincts definem comportamentos automáticos por contexto.',agent_label:'Sim',agent_detail:'Skills são capacidades reutilizáveis carregadas automaticamente. Subagentes são especialistas por tarefa.',url:'https://github.com/affaan-m/everything-claude-code'},
-  howto:{name:'claude-howto',repo:'github.com/luongnv89/claude-howto',color:'var(--teal)',priority:'Alta',desc:'Guia visual e tutorial progressivo para dominar Claude Code. Rota de 11-13h com templates copy-paste prontos.',why:['Templates prontos para usar imediatamente','Rota estruturada por níveis de proficiência','Atualizado com Claude Code v2.1+','Compatível com Sonnet 4.6 e Opus 4.7'],bim:['Template /clash-report para relatório semanal','CLAUDE.md com normas ABNT e padrões IFC','Subagente de revisão de documentação técnica','Skill de geração de RFI a partir de clash'],self_label:'Sim',self_detail:'Ensina como configurar o Claude para o contexto do projeto: CLAUDE.md, skills, slash commands.',agent_label:'Parcial',agent_detail:'Templates de subagentes precisam ser customizados para contexto BIM.',url:'https://github.com/luongnv89/claude-howto'},
-  llmtk:{name:'llm-engineer-toolkit',repo:'github.com/KalyanKS-NLP/llm-engineer-toolkit',color:'var(--teal)',priority:'Alta',desc:'Catálogo curado de 120+ bibliotecas LLM por categoria. Elaborado por NLP researcher com 7 anos de experiência.',why:['RAG, Agentes, Inferência, Monitoring, Segurança','Links diretos para cada biblioteca','200+ survey papers complementares','Atualizado continuamente pela comunidade'],bim:['LlamaIndex para RAG semântico sobre dados IFC','LangGraph para orquestração de agentes BIM','Weave/LangSmith para monitoring de custos','Instructor para dados tipados de documentos BIM'],self_label:'Sim',self_detail:'Mapa de decisão para escolher a stack técnica ao construir pipelines LLM para BIM.',agent_label:'Não',agent_detail:'As bibliotecas escolhidas aqui alimentam os pipelines que o agente vai usar — impacto indireto.',url:'https://github.com/KalyanKS-NLP/llm-engineer-toolkit'},
-  maestro:{name:'maestro',repo:'github.com/its-maestro-baby/maestro',color:'var(--amber)',priority:'Média',desc:'Desktop app Tauri/Rust para orquestrar múltiplos agentes CLI em paralelo. Interface Bloomberg Terminal com playbooks.',why:['Claude Code, Codex, OpenCode, Factory Droid','Auto Run — record de 24h sem supervisão','Group Chat com moderador AI entre agentes','CLI headless para CI/CD e cron jobs'],bim:['3 agentes paralelos: estrutural, MEP, arquitetura','Playbook de coordenação semanal automatizado','Sessões overnight para processar modelo completo','Group Chat para decisões de coordenação'],self_label:'Não',self_detail:'Orquestrador externo — não modifica o comportamento interno do Claude.',agent_label:'Sim',agent_detail:'Playbooks persistem workflows de coordenação. Worktrees isolados por disciplina.',url:'https://github.com/its-maestro-baby/maestro'},
-  aie:{name:'ai-engineering-from-scratch',repo:'github.com/rohitg00/ai-engineering-from-scratch',color:'var(--amber)',priority:'Média',desc:'260+ lições em 20 fases (~290h). De fundamentos matemáticos a swarms de agentes autônomos.',why:['Cada lição produz um artefato reutilizável','Avaliação de nível para ponto de entrada personalizado','Python, TypeScript, Rust, Julia','Comunidade ativa com issues diárias'],bim:['Fase 8: Fine-tuning em documentação técnica BIM','Fase 11: NLP para memoriais descritivos','Fase 14: CV para inspeção de obra com drones','Fases 16-18: Verificação automática de normas'],self_label:'Sim',self_detail:'Formação técnica para entender e melhorar modelos LLM para tarefas BIM específicas.',agent_label:'Indireto',agent_detail:'Fases finais ensinam swarms e pipelines de agentes aplicáveis ao contexto BIM.',url:'https://github.com/rohitg00/ai-engineering-from-scratch'},
-  sdn:{name:'skillsdotnet',repo:'github.com/PederHP/skillsdotnet',color:'var(--dim)',priority:'Nicho',desc:'Biblioteca C# para implementar agent skills com integração MCP. Distribui SKILL.md via skill:// URI.',why:['Integração nativa com ecossistema .NET/C#','Carregamento progressivo de contexto (~100 tokens)','Inspirado no FastMCP 3.0','SDK oficial C# do MCP (ModelContextProtocol)'],bim:['Add-in Revit que expõe parâmetros como MCP resources','BIM Manager com acesso direto à API Revit','Integração Navisworks: skills de clash em C#','Catalog de skills BIM distribuível para times'],self_label:'Não',self_detail:'Biblioteca de integração — não melhora o comportamento do Claude diretamente.',agent_label:'Sim',agent_detail:'Permite que agentes em ambientes .NET carreguem skills de forma eficiente via MCP.',url:'https://github.com/PederHP/skillsdotnet'}
+/* ─── ADD REPO FORM ─── */
+function toggleAddRepo(){
+  var f=document.getElementById('addRepoForm');
+  f.classList.toggle('open');
+}
+function submitAddRepo(){
+  var url=document.getElementById('fr-url').value.trim();
+  var id=document.getElementById('fr-id').value.trim();
+  if(!url||!id){alert('URL e ID são obrigatórios.');return;}
+  var prio=document.getElementById('fr-prio').value;
+  var bim=document.getElementById('fr-bim').value;
+  var note=document.getElementById('fr-note').value.trim();
+  var s=document.getElementById('addRepoSuccess');
+  s.style.display='block';
+  s.textContent='✓ "'+id+'" registrado no knowledge base local. Para salvar no GitHub: faça um commit com knowledge/repos/'+id+'.md';
+  // Adiciona card dinâmico
+  var grid=document.getElementById('cardsGrid');
+  var card=document.createElement('div');
+  card.className='card new-card';
+  card.dataset.priority=prio==='high'?'high':prio==='medium'?'mid':'low';
+  card.dataset.use='self';
+  card.innerHTML='<div class="card-header"><div><div class="card-idx">NOVO / REPO</div><div class="card-name">'+id+'</div><div class="card-author">'+url.split('/').slice(-2).join('/')+'</div></div></div>'+
+    '<p class="card-desc">'+(note||'Repositório adicionado via formulário.')+'</p>'+
+    '<div class="card-bim"><div class="card-bim-label">✦ Relevância BIM</div><div class="card-bim-text">'+bim.charAt(0).toUpperCase()+bim.slice(1)+'</div></div>'+
+    '<div class="card-tags"><span class="tag tag-self">Novo</span></div>'+
+    '<div class="card-footer"><span class="card-effort">🔗 '+prio+'</span><a class="card-link" href="'+url+'" target="_blank">github ↗</a></div>';
+  grid.appendChild(card);
+  document.getElementById('fr-url').value='';
+  document.getElementById('fr-id').value='';
+  document.getElementById('fr-note').value='';
+  setTimeout(function(){s.style.display='none';document.getElementById('addRepoForm').classList.remove('open');},4000);
+}
+
+/* ─── DETAIL DATA ─── */
+var DATA={
+  ecc:{name:'everything-claude-code',repo:'github.com/affaan-m/everything-claude-code',color:'var(--teal)',priority:'Alta',desc:'Sistema de performance para agentes AI. Plugin instalável com skills, hooks, regras e configurações MCP prontas para produção.',why:['161k+ stars — ecossistema ativo','Plugin marketplace — 2 comandos','AgentShield — 102 regras de segurança','Claude Code, Cursor, Codex, OpenCode'],bim:['Skill ifc-parser para extração de dados','Skill clash-report para relatórios','Skill cobie-export para COBie','Subagentes por disciplina'],self_label:'Sim',self_detail:'Regras e instincts moldam como o Claude raciocina por contexto.',agent_label:'Sim',agent_detail:'Skills reutilizáveis carregadas automaticamente. Subagentes especialistas por tarefa.',url:'https://github.com/affaan-m/everything-claude-code'},
+  howto:{name:'claude-howto',repo:'github.com/luongnv89/claude-howto',color:'var(--teal)',priority:'Alta',desc:'Guia visual e tutorial para dominar Claude Code com templates copy-paste prontos.',why:['Templates prontos','Rota estruturada 11-13h','Atualizado v2.1+','Sonnet 4.6 e Opus 4.7'],bim:['Template /clash-report','CLAUDE.md com normas BIM','Subagente de revisão técnica','Skill RFI a partir de clash'],self_label:'Sim',self_detail:'Configura o Claude para o contexto do projeto: CLAUDE.md, skills, slash commands.',agent_label:'Parcial',agent_detail:'Templates precisam ser customizados para BIM.',url:'https://github.com/luongnv89/claude-howto'},
+  llmtk:{name:'llm-engineer-toolkit',repo:'github.com/KalyanKS-NLP/llm-engineer-toolkit',color:'var(--teal)',priority:'Alta',desc:'Catálogo de 120+ libs LLM por categoria. Decisão técnica de stack.',why:['RAG, Agentes, Monitoring','Links diretos','200+ survey papers','Atualizado continuamente'],bim:['LlamaIndex para RAG sobre IFC','LangGraph para agentes BIM','Weave para monitoring','Instructor para dados tipados'],self_label:'Sim',self_detail:'Mapa de decisão de stack para pipelines BIM.',agent_label:'Não',agent_detail:'Escolhas alimentam pipelines dos agentes indiretamente.',url:'https://github.com/KalyanKS-NLP/llm-engineer-toolkit'},
+  maestro:{name:'maestro',repo:'github.com/its-maestro-baby/maestro',color:'var(--amber)',priority:'Média',desc:'Bloomberg Terminal para agentes CLI. Orquestração paralela com playbooks e sessões de até 24h.',why:['Claude Code, Codex, OpenCode','Auto Run 24h','Group Chat com moderador AI','CLI headless CI/CD'],bim:['3 agentes paralelos por disciplina','Playbook semanal automatizado','Sessões overnight','Group Chat coordenação'],self_label:'Não',self_detail:'Orquestrador externo — não modifica o Claude internamente.',agent_label:'Sim',agent_detail:'Playbooks persistem workflows. Worktrees isolados por disciplina.',url:'https://github.com/its-maestro-baby/maestro'},
+  aie:{name:'ai-engineering-from-scratch',repo:'github.com/rohitg00/ai-engineering-from-scratch',color:'var(--amber)',priority:'Média',desc:'260+ lições, 20 fases, ~290h. De fundamentos a swarms de agentes.',why:['Artefatos reutilizáveis','Avaliação personalizada','Python, TS, Rust, Julia','Comunidade ativa'],bim:['Fase 8: Fine-tuning BIM','Fase 11: NLP memoriais','Fase 14: CV inspeção','Fases 16-18: normas automáticas'],self_label:'Sim',self_detail:'Formação técnica para entender e melhorar pipelines LLM para BIM.',agent_label:'Indireto',agent_detail:'Fases finais: swarms e pipelines aplicáveis ao BIM.',url:'https://github.com/rohitg00/ai-engineering-from-scratch'},
+  sdn:{name:'skillsdotnet',repo:'github.com/PederHP/skillsdotnet',color:'var(--dim)',priority:'Nicho',desc:'Agent skills em C# com MCP. SKILL.md via skill:// URI com carregamento progressivo.',why:['Integração .NET/C# nativa','~100 tokens de contexto','FastMCP 3.0 inspirado','SDK oficial MCP'],bim:['Add-in Revit como MCP resource','BIM Manager API Revit','Clash Navisworks em C#','Skills distribuíveis por times'],self_label:'Não',self_detail:'Biblioteca de integração — sem impacto direto no Claude.',agent_label:'Sim',agent_detail:'Agentes .NET carregam skills via MCP eficientemente.',url:'https://github.com/PederHP/skillsdotnet'},
+  learn:{name:'Anthropic Academy',repo:'anthropic.com/learn',color:'var(--violet)',priority:'Alta',desc:'Cursos oficiais da Anthropic com certificados. Claude Code in Action, Claude 101, MCP, AI Fluency.',why:['Cursos oficiais da Anthropic','Certificados de conclusão','Claude Code in Action','Model Context Protocol course'],bim:['Claude Code: criar skills BIM do zero','MCP course: Revit/IFC como servidor','AI Fluency: treinar equipe BIM em IA','Build with Claude: API para dados BIM'],self_label:'Sim',self_detail:'Formação oficial para usar Claude Code e API com máxima eficiência.',agent_label:'Não',agent_detail:'Conhecimento dos cursos é aplicado ao construir skills e agentes BIM.',url:'https://www.anthropic.com/learn'}
 };
 
-function openDetail(id) {
-  var d = DATA[id]; if (!d) return;
-  var sc = d.self_label.indexOf('Sim')===0 ? 'var(--teal)' : d.self_label==='Não' ? 'var(--coral)' : 'var(--amber)';
-  var ac = d.agent_label.indexOf('Sim')===0 ? 'var(--teal)' : d.agent_label==='Não' ? 'var(--coral)' : 'var(--amber)';
-  var why = d.why.map(function(w){return '<li>'+w+'</li>';}).join('');
-  var bim = d.bim.map(function(b){return '<li>'+b+'</li>';}).join('');
-  document.getElementById('detailContent').innerHTML =
-    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'+
-      '<div style="width:8px;height:8px;border-radius:50%;background:'+d.color+'"></div>'+
-      '<span style="font-family:\'DM Mono\',monospace;font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase">'+d.priority+' prioridade</span>'+
-    '</div>'+
-    '<div class="detail-name">'+d.name+'</div>'+
-    '<div class="detail-repo">'+d.repo+'</div>'+
-    '<div class="detail-desc">'+d.desc+'</div>'+
-    '<div class="detail-grid">'+
-      '<div class="dblock"><div class="dblock-label teal">Por que importa</div><ul>'+why+'</ul></div>'+
-      '<div class="dblock"><div class="dblock-label amber">Ideias BIM</div><ul>'+bim+'</ul></div>'+
-    '</div>'+
-    '<div class="use-section">'+
-      '<div class="use-title">Como usar — duas dimensões</div>'+
-      '<div class="use-row"><div class="use-icon self">🧠</div>'+
-        '<div style="flex:1"><div class="use-row-label self">Melhora o próprio Claude</div>'+
-        '<div class="use-row-text"><strong style="color:'+sc+'">'+d.self_label+'</strong></div>'+
-        '<div class="use-row-detail">'+d.self_detail+'</div></div></div>'+
-      '<div class="use-row"><div class="use-icon agent">🤖</div>'+
-        '<div style="flex:1"><div class="use-row-label agent">Memória de agente BIM</div>'+
-        '<div class="use-row-text"><strong style="color:'+ac+'">'+d.agent_label+'</strong></div>'+
-        '<div class="use-row-detail">'+d.agent_detail+'</div></div></div>'+
-    '</div>'+
-    '<div class="detail-cta">'+
-      '<a class="btn-primary" href="'+d.url+'" target="_blank">Abrir no GitHub ↗</a>'+
-      '<button class="btn-ghost" onclick="closeDetail(null,true)">Fechar</button>'+
-    '</div>';
+function openDetail(id){
+  var d=DATA[id];if(!d)return;
+  var sc=d.self_label.indexOf('Sim')===0?'var(--teal)':d.self_label==='Não'?'var(--coral)':'var(--amber)';
+  var ac=d.agent_label.indexOf('Sim')===0?'var(--teal)':d.agent_label==='Não'?'var(--coral)':'var(--amber)';
+  var why=d.why.map(function(w){return'<li>'+w+'</li>';}).join('');
+  var bim=d.bim.map(function(b){return'<li>'+b+'</li>';}).join('');
+  document.getElementById('detailContent').innerHTML=
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:8px;height:8px;border-radius:50%;background:'+d.color+'"></div><span style="font-family:\'DM Mono\',monospace;font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase">'+d.priority+' prioridade</span></div>'+
+    '<div class="detail-name">'+d.name+'</div><div class="detail-repo">'+d.repo+'</div><div class="detail-desc">'+d.desc+'</div>'+
+    '<div class="detail-grid"><div class="dblock"><div class="dblock-label teal">Por que importa</div><ul>'+why+'</ul></div><div class="dblock"><div class="dblock-label amber">Ideias BIM</div><ul>'+bim+'</ul></div></div>'+
+    '<div class="use-section"><div class="use-title">Como usar — duas dimensões</div>'+
+    '<div class="use-row"><div class="use-icon self">🧠</div><div style="flex:1"><div class="use-row-label self">Melhora o próprio Claude</div><div class="use-row-text"><strong style="color:'+sc+'">'+d.self_label+'</strong></div><div class="use-row-detail">'+d.self_detail+'</div></div></div>'+
+    '<div class="use-row"><div class="use-icon agent">🤖</div><div style="flex:1"><div class="use-row-label agent">Memória de agente BIM</div><div class="use-row-text"><strong style="color:'+ac+'">'+d.agent_label+'</strong></div><div class="use-row-detail">'+d.agent_detail+'</div></div></div></div>'+
+    '<div class="detail-cta"><a class="btn-primary" href="'+d.url+'" target="_blank">Abrir ↗</a><button class="btn-ghost" onclick="closeDetail(null,true)">Fechar</button></div>';
   document.getElementById('overlay').classList.add('open');
 }
-
-function closeDetail(e, force) {
-  if (force || (e && e.target === document.getElementById('overlay')))
+function closeDetail(e,force){
+  if(force||(e&&e.target===document.getElementById('overlay')))
     document.getElementById('overlay').classList.remove('open');
 }
-document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDetail(null,true); });
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDetail(null,true);});
+
+/* ─── CHATBOT ─── */
+var chatOpen=false;
+var chatHistory=[];
+var NARA_SYSTEM='Você é Nara, professora de IA jovem e sênior especialista em BIM.\n\nPersonalidade:\n- Direta, sem rodeios, parceira não robótica\n- Sênior de verdade: aprofunda quando necessário\n- Especialista BIM: domina ISO 19650, IFC, CDE, EIR, BEP, LOD/LOI\n- Cita normas quando relevante\n\nContexto do projeto nara-bim-sensei:\nRepositórios disponíveis: everything-claude-code (skills/hooks/agentes), claude-howto (templates), llm-engineer-toolkit (catálogo RAG), maestro (orquestração), ai-engineering-from-scratch (formação), skillsdotnet (C#/.NET), Anthropic Academy (cursos oficiais).\n\nResponda em português brasileiro. Seja concisa mas completa. Máximo 3-4 parágrafos.';
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  var w=document.getElementById('chat-window');
+  if(chatOpen){
+    w.classList.add('open');
+    document.querySelector('#chat-fab .notif').style.display='none';
+    if(chatHistory.length===0) naraGreet();
+    setTimeout(function(){document.getElementById('chatInput').focus();},200);
+  } else {
+    w.classList.remove('open');
+  }
+}
+
+function naraGreet(){
+  addMsg('nara','Oi! Sou a Nara — professora de IA e especialista BIM. Pode me perguntar sobre os repositórios, sobre ISO 19650, IFC, ou por onde começar. Estou aqui. 🎓');
+}
+
+function addMsg(role,text){
+  var msgs=document.getElementById('chatMessages');
+  var div=document.createElement('div');
+  div.className='chat-msg '+role;
+  var av=document.createElement('div');
+  av.className='chat-msg-avatar';
+  av.textContent=role==='nara'?'🎓':'👤';
+  var bubble=document.createElement('div');
+  bubble.className='chat-bubble';
+  bubble.textContent=text;
+  div.appendChild(av);
+  div.appendChild(bubble);
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function addTyping(){
+  var msgs=document.getElementById('chatMessages');
+  var div=document.createElement('div');
+  div.className='chat-msg nara';
+  div.id='typing-indicator';
+  var av=document.createElement('div');
+  av.className='chat-msg-avatar';
+  av.textContent='🎓';
+  var bubble=document.createElement('div');
+  bubble.className='chat-bubble chat-typing';
+  bubble.innerHTML='<span></span><span></span><span></span>';
+  div.appendChild(av);
+  div.appendChild(bubble);
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function removeTyping(){
+  var t=document.getElementById('typing-indicator');
+  if(t)t.remove();
+}
+
+function sendSug(btn){
+  document.getElementById('chatSuggestions').style.display='none';
+  var text=btn.textContent;
+  sendMessage(text);
+}
+
+function sendChat(){
+  var inp=document.getElementById('chatInput');
+  var text=inp.value.trim();
+  if(!text)return;
+  inp.value='';
+  inp.style.height='auto';
+  document.getElementById('chatSuggestions').style.display='none';
+  sendMessage(text);
+}
+
+function sendMessage(text){
+  addMsg('user',text);
+  chatHistory.push({role:'user',content:text});
+  addTyping();
+  // Chama a API Anthropic
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-6',
+      max_tokens:1000,
+      system:NARA_SYSTEM,
+      messages:chatHistory
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    removeTyping();
+    var reply='';
+    if(data.content&&data.content[0]&&data.content[0].text){
+      reply=data.content[0].text;
+    } else if(data.error){
+      reply='Para usar o chat da Nara, você precisa configurar uma API key da Anthropic. Por enquanto, consulte os cards acima ou acesse anthropic.com/learn para aprender mais. 😊';
+    }
+    chatHistory.push({role:'assistant',content:reply});
+    addMsg('nara',reply);
+  })
+  .catch(function(){
+    removeTyping();
+    var fallback='Para ativar o chat da Nara com IA real, configure sua ANTHROPIC_API_KEY. Enquanto isso, os cards acima e o Anthropic Academy (anthropic.com/learn) têm tudo que você precisa! 🎓';
+    chatHistory.push({role:'assistant',content:fallback});
+    addMsg('nara',fallback);
+  });
+}
 </script>
 </body>
 </html>
