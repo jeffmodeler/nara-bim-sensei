@@ -1,0 +1,7 @@
+anthropic>=0.40.0
+python-dotenv>=1.0.0
+# Fase 2 — descomentar:
+# ifcopenshell
+# llama-index-core
+# langchain
+# langgraph

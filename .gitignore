@@ -1,0 +1,8 @@
+.env
+.session.json
+__pycache__/
+*.pyc
+.DS_Store
+*.ifc
+*.rvt
+*.nwd
