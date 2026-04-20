@@ -25,8 +25,6 @@ body::before{content:'';position:fixed;inset:0;background:
   radial-gradient(ellipse 70% 40% at 15% 0%,rgba(0,200,150,0.05) 0%,transparent 60%),
   radial-gradient(ellipse 50% 35% at 85% 90%,rgba(85,153,255,0.04) 0%,transparent 60%);
   pointer-events:none;z-index:0}
-
-/* LOGIN */
 #login-screen{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:var(--bg)}
 #login-screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(0,200,150,0.06) 0%,transparent 70%)}
 .login-box{position:relative;z-index:1;width:100%;max-width:380px;padding:48px 40px;background:var(--surf);border:1px solid var(--border2);border-radius:20px;animation:fadeUp .5s ease both}
@@ -42,8 +40,6 @@ body::before{content:'';position:fixed;inset:0;background:
 .login-btn:hover{opacity:.88}
 .login-error{display:none;color:var(--coral);font-size:12px;text-align:center;margin-top:10px;font-family:'DM Mono',monospace}
 .login-hint{margin-top:20px;font-size:11px;color:var(--muted);text-align:center;font-family:'DM Mono',monospace}
-
-/* APP */
 #app{display:none;position:relative;z-index:1;min-height:100vh}
 .header{position:sticky;top:0;z-index:50;background:rgba(8,9,13,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between}
 .header-left{display:flex;align-items:center;gap:12px}
@@ -116,8 +112,7 @@ body::before{content:'';position:fixed;inset:0;background:
 @media(max-width:540px){.detail-grid{grid-template-columns:1fr}}
 .dblock{background:var(--surf2);border:1px solid var(--border);border-radius:var(--rs);padding:14px 16px}
 .dblock-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
-.dblock-label.teal{color:var(--teal)}
-.dblock-label.amber{color:var(--amber)}
+.dblock-label.teal{color:var(--teal)}.dblock-label.amber{color:var(--amber)}
 .dblock ul{list-style:none}
 .dblock li{font-size:12px;line-height:1.65;color:var(--muted);padding-left:14px;position:relative;margin-bottom:3px}
 .dblock li::before{content:'›';position:absolute;left:0;color:var(--teal)}
@@ -125,11 +120,9 @@ body::before{content:'';position:fixed;inset:0;background:
 .use-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .use-row{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:var(--rs);border:1px solid var(--border);margin-bottom:8px}
 .use-icon{width:28px;height:28px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px}
-.use-icon.self{background:var(--violet-d)}
-.use-icon.agent{background:var(--blue-d)}
+.use-icon.self{background:var(--violet-d)}.use-icon.agent{background:var(--blue-d)}
 .use-row-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
-.use-row-label.self{color:var(--violet)}
-.use-row-label.agent{color:var(--blue)}
+.use-row-label.self{color:var(--violet)}.use-row-label.agent{color:var(--blue)}
 .use-row-text{font-size:12px;color:var(--text);line-height:1.65}
 .use-row-detail{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.6}
 .detail-cta{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
@@ -193,7 +186,6 @@ body::before{content:'';position:fixed;inset:0;background:
       <button class="header-logout" onclick="doLogout()">sair</button>
     </div>
   </header>
-
   <div class="shell">
     <div class="hero">
       <div>
@@ -207,13 +199,11 @@ body::before{content:'';position:fixed;inset:0;background:
         <span class="chip chip-blue">ISO 19650</span>
       </div>
     </div>
-
     <div class="quote-strip">
       <div class="quote-avatar">🎓</div>
       <div class="quote-text">"Antes de recomendar qualquer ferramenta, eu verifico se ela realmente serve ao seu workflow. Não ao workflow genérico — ao seu."</div>
       <div class="quote-by">— Nara, BIM Sensei</div>
     </div>
-
     <div class="filter-bar">
       <span class="filter-label">Filtrar</span>
       <button class="filter-btn active" data-filter="all">Todos</button>
@@ -222,8 +212,7 @@ body::before{content:'';position:fixed;inset:0;background:
       <button class="filter-btn" data-filter="both">Ambos</button>
       <button class="filter-btn" data-filter="high">Alta prioridade</button>
     </div>
-
-    <div class="cards-grid" id="cardsGrid">
+    <div class="cards-grid">
       <div class="card" data-priority="high" data-use="both" onclick="openDetail('ecc')">
         <div class="card-header"><div><div class="card-idx">01 / PLUGIN</div><div class="card-name">everything-claude-code</div><div class="card-author">affaan-m · 161k ★</div></div><span class="card-stars">★ 161k</span></div>
         <p class="card-desc">Sistema de performance para agentes — skills, hooks, memória e segurança para Claude Code, Cursor, Codex e OpenCode.</p>
@@ -267,7 +256,6 @@ body::before{content:'';position:fixed;inset:0;background:
         <div class="card-footer"><span class="card-effort">🔧 Nicho .NET</span><a class="card-link" href="https://github.com/PederHP/skillsdotnet" target="_blank" onclick="event.stopPropagation()">github ↗</a></div>
       </div>
     </div>
-
     <div class="section">
       <h2 class="section-title">Matriz de <span>Decisão</span></h2>
       <table class="matrix">
@@ -282,19 +270,17 @@ body::before{content:'';position:fixed;inset:0;background:
         </tbody>
       </table>
     </div>
-
     <div class="section">
       <h2 class="section-title roadmap-title">Roadmap de <span>Adoção</span></h2>
       <div class="timeline">
-        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-period">Semana 1–2</div><div class="tl-label">Base: claude-howto + templates</div><div class="tl-desc">Copy-paste de slash commands para relatórios BIM. Configure CLAUDE.md com contexto de projeto. Primeiros subagentes por disciplina.</div></div>
-        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-period">Semana 2–4</div><div class="tl-label">Plugin: everything-claude-code</div><div class="tl-desc">Instale como plugin. Crie skills para IFC parsing, Revit API e clash detection. Ative hooks automáticos de qualidade.</div></div>
-        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Mês 2</div><div class="tl-label">Stack RAG: llm-engineer-toolkit</div><div class="tl-desc">Use o catálogo para escolher LlamaIndex. Monte pipeline de consultas semânticas sobre dados do modelo BIM.</div></div>
-        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Mês 2–3</div><div class="tl-label">Orquestração: maestro</div><div class="tl-desc">Playbooks para workflows repetíveis de coordenação. Agentes paralelos por disciplina. CLI headless para CI/CD.</div></div>
-        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Paralelo</div><div class="tl-label">Formação: ai-engineering-from-scratch</div><div class="tl-desc">Fases 7–15: NLP para documentação técnica, computer vision para inspeção de obra, RL para otimização de cronograma.</div></div>
+        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-period">Semana 1–2</div><div class="tl-label">Base: claude-howto + templates</div><div class="tl-desc">Copy-paste de slash commands para relatórios BIM. Configure CLAUDE.md com contexto de projeto.</div></div>
+        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-period">Semana 2–4</div><div class="tl-label">Plugin: everything-claude-code</div><div class="tl-desc">Instale como plugin. Crie skills para IFC parsing, Revit API e clash detection.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Mês 2</div><div class="tl-label">Stack RAG: llm-engineer-toolkit</div><div class="tl-desc">Use o catálogo para escolher LlamaIndex. Monte pipeline de consultas semânticas sobre dados BIM.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Mês 2–3</div><div class="tl-label">Orquestração: maestro</div><div class="tl-desc">Playbooks para workflows repetíveis. Agentes paralelos por disciplina. CLI headless para CI/CD.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-period">Paralelo</div><div class="tl-label">Formação: ai-engineering-from-scratch</div><div class="tl-desc">Fases 7–15: NLP para documentação, computer vision para inspeção, RL para cronograma.</div></div>
       </div>
     </div>
   </div>
-
   <footer class="footer">
     <span>Nara BIM Sensei · v0.1.0 · jeffmodeler</span>
     <div style="display:flex;gap:16px">
@@ -312,42 +298,25 @@ body::before{content:'';position:fixed;inset:0;background:
 </div>
 
 <script>
-/* ── AUTH ── senha: nara2026 ────────────────────────────────────────── */
-// SHA-256 real de "nara2026" gerado via SubtleCrypto
-const CORRECT_HASH = '9e9370df1e7b6ca3b5bc0e9a8e1d5f7c2a4b3c8d6e0f1a2b3c4d5e6f7a8b9c0d';
+/* ── AUTH — senha: nara2026 ─────────────────────────────────────────
+   Lógica simples e síncrona, sem async/hash.
+   Para trocar a senha: edite a string 'nara2026' nas duas linhas abaixo.
+───────────────────────────────────────────────────────────────────── */
+var SENHA = 'nara2026';
 
-async function sha256(msg) {
-  try {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  } catch(e) {
-    return '__fallback__';
+function doLogin() {
+  var val = document.getElementById('pwd-input').value;
+  if (val === SENHA) {
+    sessionStorage.setItem('nara_ok', '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+  } else {
+    var err = document.getElementById('login-error');
+    err.style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('pwd-input').focus();
+    setTimeout(function(){ err.style.display = 'none'; }, 3000);
   }
-}
-
-async function doLogin() {
-  const val = document.getElementById('pwd-input').value;
-  if (!val) return;
-  const hash = await sha256(val);
-  // Fallback: se SubtleCrypto falhou OU hash bate
-  if (hash === '__fallback__' ? val === 'nara2026' : hash === CORRECT_HASH) {
-    unlock(); return;
-  }
-  showError();
-}
-
-function showError() {
-  const err = document.getElementById('login-error');
-  err.style.display = 'block';
-  document.getElementById('pwd-input').value = '';
-  document.getElementById('pwd-input').focus();
-  setTimeout(() => err.style.display = 'none', 3000);
-}
-
-function unlock() {
-  sessionStorage.setItem('nara_ok','1');
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
 }
 
 function doLogout() {
@@ -357,17 +326,19 @@ function doLogout() {
   document.getElementById('pwd-input').value = '';
 }
 
-if (sessionStorage.getItem('nara_ok') === '1') unlock();
+if (sessionStorage.getItem('nara_ok') === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
 
-/* ── FILTERS ────────────────────────────────────────────────────────── */
-document.querySelectorAll('.filter-btn').forEach(btn => {
+/* ── FILTERS ─────────────────────────────────────────────────────── */
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
     this.classList.add('active');
-    const f = this.dataset.filter;
-    document.querySelectorAll('.card').forEach(c => {
-      const use = c.dataset.use, pri = c.dataset.priority;
-      let show = true;
+    var f = this.dataset.filter;
+    document.querySelectorAll('.card').forEach(function(c) {
+      var use = c.dataset.use, pri = c.dataset.priority, show = true;
       if (f==='self')  show = use==='self'  || use==='both';
       if (f==='agent') show = use==='agent' || use==='both';
       if (f==='both')  show = use==='both';
@@ -377,59 +348,57 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
-/* ── DETAIL DATA ────────────────────────────────────────────────────── */
-const DATA = {
-  ecc:{name:'everything-claude-code',repo:'github.com/affaan-m/everything-claude-code',color:'var(--teal)',priority:'Alta',desc:'Sistema de performance para agentes AI. Plugin instalável com skills, hooks, regras, comandos e configurações MCP prontas para produção.',why:['161k+ stars — ecossistema ativo','Plugin marketplace — instalação em 2 comandos','AgentShield — 102 regras de segurança','Claude Code, Cursor, Codex, OpenCode'],bim:['Skill ifc-parser para extração de dados','Skill clash-report para relatórios automáticos','Skill cobie-export para COBie a partir de IFC','Subagentes por disciplina com contexto isolado'],self_label:'Sim',self_detail:'Regras moldam como o Claude raciocina. Instincts definem comportamentos automáticos por contexto.',agent_label:'Sim',agent_detail:'Skills são capacidades reutilizáveis carregadas automaticamente. Subagentes são especialistas por tarefa.',url:'https://github.com/affaan-m/everything-claude-code'},
-  howto:{name:'claude-howto',repo:'github.com/luongnv89/claude-howto',color:'var(--teal)',priority:'Alta',desc:'Guia visual e tutorial progressivo para dominar Claude Code. Rota de 11-13h com templates copy-paste.',why:['Templates prontos para usar','Rota estruturada por níveis','Atualizado com Claude Code v2.1+','Compatible com Sonnet 4.6 e Opus 4.7'],bim:['Template /clash-report para relatório semanal','CLAUDE.md com normas ABNT e padrões IFC','Subagente de revisão de documentação','Skill de geração de RFI a partir de clash'],self_label:'Sim',self_detail:'Ensina como configurar o Claude para o contexto do projeto: CLAUDE.md, skills, slash commands.',agent_label:'Parcial',agent_detail:'Templates de subagentes precisam ser customizados para contexto BIM.',url:'https://github.com/luongnv89/claude-howto'},
-  llmtk:{name:'llm-engineer-toolkit',repo:'github.com/KalyanKS-NLP/llm-engineer-toolkit',color:'var(--teal)',priority:'Alta',desc:'Catálogo curado de 120+ bibliotecas LLM por categoria por NLP researcher com 1500+ citações.',why:['RAG, Agentes, Inferência, Monitoring, Segurança','Links diretos para cada biblioteca','200+ survey papers complementares','Atualizado continuamente'],bim:['LlamaIndex para RAG sobre dados IFC','LangGraph para orquestração de agentes','Weave para monitoring de custos','Instructor para dados tipados de documentos BIM'],self_label:'Sim',self_detail:'Mapa de decisão para escolher stack técnica ao construir pipelines LLM para BIM.',agent_label:'Não',agent_detail:'As bibliotecas escolhidas alimentam os pipelines do agente — impacto indireto.',url:'https://github.com/KalyanKS-NLP/llm-engineer-toolkit'},
-  maestro:{name:'maestro',repo:'github.com/its-maestro-baby/maestro',color:'var(--amber)',priority:'Média',desc:'Desktop app Tauri/Rust para orquestrar múltiplos agentes CLI. Interface Bloomberg Terminal com playbooks e sessões de até 24h.',why:['Claude Code, Codex, OpenCode, Factory Droid','Auto Run — record 24h sem supervisão','Group Chat com moderador AI','CLI headless para CI/CD'],bim:['3 agentes paralelos por disciplina','Playbook de coordenação semanal','Sessões overnight para processar modelo','Group Chat entre disciplinas'],self_label:'Não',self_detail:'Orquestrador externo — não modifica o comportamento interno do Claude.',agent_label:'Sim',agent_detail:'Playbooks persistem workflows. Worktrees isolados por disciplina. Histórico completo de sessões.',url:'https://github.com/its-maestro-baby/maestro'},
-  aie:{name:'ai-engineering-from-scratch',repo:'github.com/rohitg00/ai-engineering-from-scratch',color:'var(--amber)',priority:'Média',desc:'260+ lições em 20 fases (~290h). De fundamentos matemáticos a swarms de agentes autônomos.',why:['Cada lição produz artefato reutilizável','Avaliação de nível personalizada','Python, TypeScript, Rust, Julia','Comunidade ativa'],bim:['Fase 8: Fine-tuning em documentação BIM','Fase 11: NLP para memoriais descritivos','Fase 14: CV para inspeção de obra','Fases 16-18: Verificação automática de normas'],self_label:'Sim',self_detail:'Formação técnica para entender e melhorar modelos LLM para tarefas BIM.',agent_label:'Indireto',agent_detail:'Fases finais ensinam swarms e pipelines aplicáveis ao contexto BIM.',url:'https://github.com/rohitg00/ai-engineering-from-scratch'},
-  sdn:{name:'skillsdotnet',repo:'github.com/PederHP/skillsdotnet',color:'var(--dim)',priority:'Nicho',desc:'Biblioteca C# para implementar agent skills com integração MCP via skill:// URI.',why:['Integração nativa .NET/C#','Carregamento progressivo de contexto','Inspirado no FastMCP 3.0','SDK oficial C# MCP'],bim:['Add-in Revit com parâmetros como MCP resources','BIM Manager com API Revit nativa','Clash em C# para Navisworks','Skills BIM distribuíveis por times'],self_label:'Não',self_detail:'Biblioteca de integração — não melhora o Claude diretamente.',agent_label:'Sim',agent_detail:'Agentes em .NET carregam skills de forma eficiente via MCP.',url:'https://github.com/PederHP/skillsdotnet'}
+/* ── DETAIL DATA ─────────────────────────────────────────────────── */
+var DATA = {
+  ecc:{name:'everything-claude-code',repo:'github.com/affaan-m/everything-claude-code',color:'var(--teal)',priority:'Alta',desc:'Sistema de performance para agentes AI. Plugin instalável com skills, hooks, regras e configurações MCP prontas para produção.',why:['161k+ stars — ecossistema ativo','Plugin marketplace — 2 comandos para instalar','AgentShield — 102 regras de segurança','Claude Code, Cursor, Codex, OpenCode'],bim:['Skill ifc-parser para extração de dados','Skill clash-report para relatórios automáticos','Skill cobie-export para COBie a partir de IFC','Subagentes por disciplina com contexto isolado'],self_label:'Sim',self_detail:'Regras moldam como o Claude raciocina. Instincts definem comportamentos automáticos por contexto.',agent_label:'Sim',agent_detail:'Skills são capacidades reutilizáveis carregadas automaticamente. Subagentes são especialistas por tarefa.',url:'https://github.com/affaan-m/everything-claude-code'},
+  howto:{name:'claude-howto',repo:'github.com/luongnv89/claude-howto',color:'var(--teal)',priority:'Alta',desc:'Guia visual e tutorial progressivo para dominar Claude Code. Rota de 11-13h com templates copy-paste prontos.',why:['Templates prontos para usar imediatamente','Rota estruturada por níveis de proficiência','Atualizado com Claude Code v2.1+','Compatível com Sonnet 4.6 e Opus 4.7'],bim:['Template /clash-report para relatório semanal','CLAUDE.md com normas ABNT e padrões IFC','Subagente de revisão de documentação técnica','Skill de geração de RFI a partir de clash'],self_label:'Sim',self_detail:'Ensina como configurar o Claude para o contexto do projeto: CLAUDE.md, skills, slash commands.',agent_label:'Parcial',agent_detail:'Templates de subagentes precisam ser customizados para contexto BIM.',url:'https://github.com/luongnv89/claude-howto'},
+  llmtk:{name:'llm-engineer-toolkit',repo:'github.com/KalyanKS-NLP/llm-engineer-toolkit',color:'var(--teal)',priority:'Alta',desc:'Catálogo curado de 120+ bibliotecas LLM por categoria. Elaborado por NLP researcher com 7 anos de experiência.',why:['RAG, Agentes, Inferência, Monitoring, Segurança','Links diretos para cada biblioteca','200+ survey papers complementares','Atualizado continuamente pela comunidade'],bim:['LlamaIndex para RAG semântico sobre dados IFC','LangGraph para orquestração de agentes BIM','Weave/LangSmith para monitoring de custos','Instructor para dados tipados de documentos BIM'],self_label:'Sim',self_detail:'Mapa de decisão para escolher a stack técnica ao construir pipelines LLM para BIM.',agent_label:'Não',agent_detail:'As bibliotecas escolhidas aqui alimentam os pipelines que o agente vai usar — impacto indireto.',url:'https://github.com/KalyanKS-NLP/llm-engineer-toolkit'},
+  maestro:{name:'maestro',repo:'github.com/its-maestro-baby/maestro',color:'var(--amber)',priority:'Média',desc:'Desktop app Tauri/Rust para orquestrar múltiplos agentes CLI em paralelo. Interface Bloomberg Terminal com playbooks.',why:['Claude Code, Codex, OpenCode, Factory Droid','Auto Run — record de 24h sem supervisão','Group Chat com moderador AI entre agentes','CLI headless para CI/CD e cron jobs'],bim:['3 agentes paralelos: estrutural, MEP, arquitetura','Playbook de coordenação semanal automatizado','Sessões overnight para processar modelo completo','Group Chat para decisões de coordenação'],self_label:'Não',self_detail:'Orquestrador externo — não modifica o comportamento interno do Claude.',agent_label:'Sim',agent_detail:'Playbooks persistem workflows de coordenação. Worktrees isolados por disciplina.',url:'https://github.com/its-maestro-baby/maestro'},
+  aie:{name:'ai-engineering-from-scratch',repo:'github.com/rohitg00/ai-engineering-from-scratch',color:'var(--amber)',priority:'Média',desc:'260+ lições em 20 fases (~290h). De fundamentos matemáticos a swarms de agentes autônomos.',why:['Cada lição produz um artefato reutilizável','Avaliação de nível para ponto de entrada personalizado','Python, TypeScript, Rust, Julia','Comunidade ativa com issues diárias'],bim:['Fase 8: Fine-tuning em documentação técnica BIM','Fase 11: NLP para memoriais descritivos','Fase 14: CV para inspeção de obra com drones','Fases 16-18: Verificação automática de normas'],self_label:'Sim',self_detail:'Formação técnica para entender e melhorar modelos LLM para tarefas BIM específicas.',agent_label:'Indireto',agent_detail:'Fases finais ensinam swarms e pipelines de agentes aplicáveis ao contexto BIM.',url:'https://github.com/rohitg00/ai-engineering-from-scratch'},
+  sdn:{name:'skillsdotnet',repo:'github.com/PederHP/skillsdotnet',color:'var(--dim)',priority:'Nicho',desc:'Biblioteca C# para implementar agent skills com integração MCP. Distribui SKILL.md via skill:// URI.',why:['Integração nativa com ecossistema .NET/C#','Carregamento progressivo de contexto (~100 tokens)','Inspirado no FastMCP 3.0','SDK oficial C# do MCP (ModelContextProtocol)'],bim:['Add-in Revit que expõe parâmetros como MCP resources','BIM Manager com acesso direto à API Revit','Integração Navisworks: skills de clash em C#','Catalog de skills BIM distribuível para times'],self_label:'Não',self_detail:'Biblioteca de integração — não melhora o comportamento do Claude diretamente.',agent_label:'Sim',agent_detail:'Permite que agentes em ambientes .NET carreguem skills de forma eficiente via MCP.',url:'https://github.com/PederHP/skillsdotnet'}
 };
 
 function openDetail(id) {
-  const d = DATA[id]; if (!d) return;
-  const sc = d.self_label.startsWith('Sim') ? 'var(--teal)' : d.self_label==='Não' ? 'var(--coral)' : 'var(--amber)';
-  const ac = d.agent_label.startsWith('Sim') ? 'var(--teal)' : d.agent_label==='Não' ? 'var(--coral)' : 'var(--amber)';
-  document.getElementById('detailContent').innerHTML = `
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <div style="width:8px;height:8px;border-radius:50%;background:${d.color}"></div>
-      <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase">${d.priority} prioridade</span>
-    </div>
-    <div class="detail-name">${d.name}</div>
-    <div class="detail-repo">${d.repo}</div>
-    <div class="detail-desc">${d.desc}</div>
-    <div class="detail-grid">
-      <div class="dblock"><div class="dblock-label teal">Por que importa</div><ul>${d.why.map(w=>`<li>${w}</li>`).join('')}</ul></div>
-      <div class="dblock"><div class="dblock-label amber">Ideias BIM</div><ul>${d.bim.map(b=>`<li>${b}</li>`).join('')}</ul></div>
-    </div>
-    <div class="use-section">
-      <div class="use-title">Como usar — duas dimensões</div>
-      <div class="use-row">
-        <div class="use-icon self">🧠</div>
-        <div style="flex:1"><div class="use-row-label self">Melhora o próprio Claude</div>
-          <div class="use-row-text"><strong style="color:${sc}">${d.self_label}</strong></div>
-          <div class="use-row-detail">${d.self_detail}</div></div>
-      </div>
-      <div class="use-row">
-        <div class="use-icon agent">🤖</div>
-        <div style="flex:1"><div class="use-row-label agent">Memória de agente BIM</div>
-          <div class="use-row-text"><strong style="color:${ac}">${d.agent_label}</strong></div>
-          <div class="use-row-detail">${d.agent_detail}</div></div>
-      </div>
-    </div>
-    <div class="detail-cta">
-      <a class="btn-primary" href="${d.url}" target="_blank">Abrir no GitHub ↗</a>
-      <button class="btn-ghost" onclick="closeDetail(null,true)">Fechar</button>
-    </div>`;
+  var d = DATA[id]; if (!d) return;
+  var sc = d.self_label.indexOf('Sim')===0 ? 'var(--teal)' : d.self_label==='Não' ? 'var(--coral)' : 'var(--amber)';
+  var ac = d.agent_label.indexOf('Sim')===0 ? 'var(--teal)' : d.agent_label==='Não' ? 'var(--coral)' : 'var(--amber)';
+  var why = d.why.map(function(w){return '<li>'+w+'</li>';}).join('');
+  var bim = d.bim.map(function(b){return '<li>'+b+'</li>';}).join('');
+  document.getElementById('detailContent').innerHTML =
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'+
+      '<div style="width:8px;height:8px;border-radius:50%;background:'+d.color+'"></div>'+
+      '<span style="font-family:\'DM Mono\',monospace;font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase">'+d.priority+' prioridade</span>'+
+    '</div>'+
+    '<div class="detail-name">'+d.name+'</div>'+
+    '<div class="detail-repo">'+d.repo+'</div>'+
+    '<div class="detail-desc">'+d.desc+'</div>'+
+    '<div class="detail-grid">'+
+      '<div class="dblock"><div class="dblock-label teal">Por que importa</div><ul>'+why+'</ul></div>'+
+      '<div class="dblock"><div class="dblock-label amber">Ideias BIM</div><ul>'+bim+'</ul></div>'+
+    '</div>'+
+    '<div class="use-section">'+
+      '<div class="use-title">Como usar — duas dimensões</div>'+
+      '<div class="use-row"><div class="use-icon self">🧠</div>'+
+        '<div style="flex:1"><div class="use-row-label self">Melhora o próprio Claude</div>'+
+        '<div class="use-row-text"><strong style="color:'+sc+'">'+d.self_label+'</strong></div>'+
+        '<div class="use-row-detail">'+d.self_detail+'</div></div></div>'+
+      '<div class="use-row"><div class="use-icon agent">🤖</div>'+
+        '<div style="flex:1"><div class="use-row-label agent">Memória de agente BIM</div>'+
+        '<div class="use-row-text"><strong style="color:'+ac+'">'+d.agent_label+'</strong></div>'+
+        '<div class="use-row-detail">'+d.agent_detail+'</div></div></div>'+
+    '</div>'+
+    '<div class="detail-cta">'+
+      '<a class="btn-primary" href="'+d.url+'" target="_blank">Abrir no GitHub ↗</a>'+
+      '<button class="btn-ghost" onclick="closeDetail(null,true)">Fechar</button>'+
+    '</div>';
   document.getElementById('overlay').classList.add('open');
 }
 
-function closeDetail(e,force) {
-  if (force||(e&&e.target===document.getElementById('overlay')))
+function closeDetail(e, force) {
+  if (force || (e && e.target === document.getElementById('overlay')))
     document.getElementById('overlay').classList.remove('open');
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail(null,true)});
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDetail(null,true); });
 </script>
 </body>
 </html>
