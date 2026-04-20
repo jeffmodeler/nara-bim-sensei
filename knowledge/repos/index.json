@@ -1,0 +1,137 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-04-20",
+  "repos": [
+    {
+      "id": "everything-claude-code",
+      "url": "https://github.com/affaan-m/everything-claude-code",
+      "author": "affaan-m",
+      "stars": 161000,
+      "category": "agent-framework",
+      "priority": "high",
+      "use_for_claude_self": true,
+      "use_for_agent_memory": true,
+      "bim_relevance": "high",
+      "tags": ["skills", "hooks", "agents", "memory", "rules", "claude-code"],
+      "bim_use_cases": [
+        "Skills de IFC parsing reutilizaveis",
+        "Hooks automaticos para validacao de modelos",
+        "Subagentes por disciplina BIM",
+        "Regras de seguranca para operacoes em arquivos BIM"
+      ],
+      "status": "active",
+      "notes": "Core do framework - instalar primeiro"
+    },
+    {
+      "id": "claude-howto",
+      "url": "https://github.com/luongnv89/claude-howto",
+      "author": "luongnv89",
+      "stars": null,
+      "category": "learning-guide",
+      "priority": "high",
+      "use_for_claude_self": true,
+      "use_for_agent_memory": false,
+      "bim_relevance": "high",
+      "tags": ["templates", "slash-commands", "subagents", "learning", "mcp"],
+      "bim_use_cases": [
+        "Templates para relatorios de clash detection",
+        "CLAUDE.md padrao para projetos BIM",
+        "Subagentes por disciplina com templates prontos"
+      ],
+      "status": "active",
+      "notes": "Ponto de entrada para aprendizado"
+    },
+    {
+      "id": "llm-engineer-toolkit",
+      "url": "https://github.com/KalyanKS-NLP/llm-engineer-toolkit",
+      "author": "KalyanKS-NLP",
+      "stars": null,
+      "category": "reference-catalog",
+      "priority": "high",
+      "use_for_claude_self": true,
+      "use_for_agent_memory": false,
+      "bim_relevance": "medium",
+      "tags": ["rag", "agents", "inference", "monitoring", "libraries", "catalog"],
+      "bim_use_cases": [
+        "Escolha de stack RAG para consultas em IFC",
+        "Bibliotecas de avaliacao de qualidade",
+        "Ferramentas de monitoring de custos"
+      ],
+      "status": "active",
+      "notes": "Consultar antes de decidir qualquer nova dependencia"
+    },
+    {
+      "id": "maestro",
+      "url": "https://github.com/its-maestro-baby/maestro",
+      "author": "its-maestro-baby",
+      "stars": null,
+      "category": "orchestrator",
+      "priority": "medium",
+      "use_for_claude_self": false,
+      "use_for_agent_memory": true,
+      "bim_relevance": "medium",
+      "tags": ["multi-agent", "playbooks", "parallel", "cli", "desktop"],
+      "bim_use_cases": [
+        "Agentes paralelos por disciplina BIM",
+        "Playbooks para coordenacao semanal",
+        "Sessoes autonomas overnight de processamento"
+      ],
+      "status": "active",
+      "notes": "Instalar apos dominar ECC - fase 4"
+    },
+    {
+      "id": "ai-engineering-from-scratch",
+      "url": "https://github.com/rohitg00/ai-engineering-from-scratch",
+      "author": "rohitg00",
+      "stars": null,
+      "category": "learning-course",
+      "priority": "medium",
+      "use_for_claude_self": true,
+      "use_for_agent_memory": false,
+      "bim_relevance": "medium",
+      "tags": ["ml", "dl", "nlp", "agents", "swarms", "course"],
+      "bim_use_cases": [
+        "Fases 7-9: base para prompting avancado BIM",
+        "Fase 11: NLP para memoriais descritivos",
+        "Fases 16-18: swarms de agentes BIM"
+      ],
+      "status": "active",
+      "notes": "Formacao paralela de longo prazo"
+    },
+    {
+      "id": "skillsdotnet",
+      "url": "https://github.com/PederHP/skillsdotnet",
+      "author": "PederHP",
+      "stars": null,
+      "category": "library",
+      "priority": "low",
+      "use_for_claude_self": false,
+      "use_for_agent_memory": true,
+      "bim_relevance": "medium",
+      "tags": ["csharp", "dotnet", "mcp", "skills", "revit-api"],
+      "bim_use_cases": [
+        "Add-ins Revit com skills de IA via MCP",
+        "Integracao Navisworks com agentes Claude"
+      ],
+      "status": "active",
+      "notes": "Usar se stack .NET for necessaria"
+    }
+  ],
+  "categories": {
+    "agent-framework": "Frameworks para criar e orquestrar agentes AI",
+    "learning-guide": "Guias e tutoriais para aprendizado",
+    "reference-catalog": "Catalogos e referencias tecnicas",
+    "orchestrator": "Ferramentas de orquestracao multi-agente",
+    "learning-course": "Cursos estruturados de AI engineering",
+    "library": "Bibliotecas especificas de linguagem",
+    "bim-reference": "Normas, guias e referencias tecnicas BIM"
+  },
+  "how_to_add": {
+    "steps": [
+      "1. /add-repo no assistente (wizard interativo)",
+      "2. Ou adicionar manualmente ao JSON + criar .md de analise",
+      "3. python scripts/update_knowledge.py --validate",
+      "4. git commit -m 'knowledge: add {id}'"
+    ]
+  }
+}
