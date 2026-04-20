@@ -7,9 +7,18 @@
                                               — Nara, BIM Sensei
 ```
 
+## 🌐 Acesso
+
+**→ [https://jeffmodeler.github.io/nara-bim-sensei](https://jeffmodeler.github.io/nara-bim-sensei)**
+
+Senha de acesso: `nara2026`
+
+---
+
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?style=flat-square)](https://python.org)
 [![Claude](https://img.shields.io/badge/Claude-Sonnet_4.6-teal?style=flat-square)](https://anthropic.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+[![Site](https://img.shields.io/badge/Site-GitHub_Pages-violet?style=flat-square)](https://jeffmodeler.github.io/nara-bim-sensei)
 
 ---
 
@@ -46,34 +55,37 @@ Como a Nara fala:
 nara-bim-sensei/
 │
 ├── CLAUDE.md                     # 🧠 Identidade e contexto persistente da Nara
-├── assistant.py                  # 🤖 Loop de conversa principal
+├── assistant.py                  # 🤖 Loop de conversa principal (CLI)
 │
 ├── knowledge/
 │   ├── repos/
 │   │   ├── index.json            # 📚 Banco de dados de repositórios
-│   │   └── *.md                  # Análise individual por repo
+│   │   └── *.md                  # Análise individual por repo (Obsidian vault)
 │   ├── bim/                      # Notas técnicas BIM
-│   └── learning/                 # Notas de aprendizado
+│   └── learning/
+│       └── anthropic-learn.md    # Cursos Anthropic Academy
+│
+├── .obsidian/                    # Configuração do vault Obsidian
+│   ├── app.json
+│   └── graph.json                # Graph view com colorização por prioridade
 │
 ├── .claude/
 │   ├── skills/
 │   │   ├── bim-clash-report.md   # 🛠 Skill: relatório de clash
 │   │   └── add-repo.md           # 🛠 Skill: analisar e adicionar repo
-│   ├── agents/                   # Subagentes por disciplina (fase 2)
-│   └── commands/                 # Slash commands customizados (fase 2)
+│   └── commands/                 # Slash commands customizados
 │
 ├── scripts/
 │   └── update_knowledge.py       # 🔧 CLI para gerenciar knowledge base
 │
 └── docs/
     ├── next-steps.md
-    ├── skills-created.md
     └── decisions/
 ```
 
 ---
 
-## Setup em 5 minutos
+## Setup em 5 minutos (CLI local)
 
 ```bash
 git clone https://github.com/jeffmodeler/nara-bim-sensei.git
@@ -91,9 +103,26 @@ Rode:
 python assistant.py
 ```
 
+> **Nota sobre API key:** o `assistant.py` (modo CLI local) usa a API da Anthropic, que é paga por uso.
+> O **site** (`jeffmodeler.github.io/nara-bim-sensei`) funciona 100% sem API key — o dashboard, os cards,
+> o Anthropic Academy tracker e o add-repo funcionam sem custo. O chatbot no site só precisa de API key
+> se você quiser respostas com IA real; sem ela, redireciona para os recursos do próprio site.
+
 ---
 
-## Comandos disponíveis
+## Usando como Vault Obsidian
+
+Abra a pasta clonada diretamente no Obsidian:
+
+1. Obsidian → "Open folder as vault"
+2. Selecione a pasta `nara-bim-sensei/`
+3. Acesse Graph View para ver as conexões entre os repositórios
+
+Os arquivos `knowledge/repos/*.md` têm frontmatter YAML e `[[wikilinks]]` prontos.
+
+---
+
+## Comandos disponíveis (CLI)
 
 | Comando | O que faz |
 |---------|-----------|
@@ -107,29 +136,16 @@ python assistant.py
 
 ---
 
-## Como adicionar um novo repositório
-
-```
-# Via conversa com a Nara
-você › analise https://github.com/usuario/repo
-
-# Via wizard interativo
-você › /add-repo
-
-# Commit
-git commit -m "knowledge: add nome-do-repo"
-```
-
----
-
 ## Roadmap
 
 ### ✅ Fase 1 — Base
 - [x] Estrutura e CLAUDE.md com personalidade da Nara
-- [x] Knowledge base com 6 repositórios analisados
-- [x] Loop de conversa com contexto persistente
-- [x] Skills: clash-report, add-repo
-- [ ] Configurar API key e primeiro teste
+- [x] Knowledge base com 7 repositórios analisados
+- [x] Dashboard web com login, cards, filtros e matrix
+- [x] Anthropic Academy tracker (cursos + disciplinas BIM)
+- [x] Chatbot Nara com API key configurável
+- [x] Vault Obsidian com wikilinks e graph view
+- [x] Add-repo form no dashboard
 
 ### 🔜 Fase 2 — Skills BIM (semana 2-4)
 - [ ] Instalar `everything-claude-code` como plugin
