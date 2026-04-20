@@ -77,7 +77,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .quote-text{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--text);flex:1}
 .quote-by{font-family:'DM Mono',monospace;font-size:10px;color:var(--teal);letter-spacing:0.1em;white-space:nowrap}
 
-/* ANTHROPIC LEARN BANNER */
+/* LEARN BANNER */
 .learn-banner{background:linear-gradient(135deg,rgba(0,200,150,0.08) 0%,rgba(85,153,255,0.06) 100%);border:1px solid rgba(0,200,150,0.2);border-radius:var(--r);padding:16px 20px;margin-bottom:36px;display:flex;align-items:center;gap:16px}
 .learn-banner-icon{font-size:24px;flex-shrink:0}
 .learn-banner-body{flex:1}
@@ -147,8 +147,6 @@ body::before{content:'';position:fixed;inset:0;background:
 .card-effort{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace}
 .card-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--teal);text-decoration:none;font-family:'DM Mono',monospace;opacity:.7;transition:opacity .2s}
 .card-link:hover{opacity:1}
-
-/* PROGRESS BAR academy card */
 .card-progress{margin-top:2px}
 .card-progress-label{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:4px;letter-spacing:.06em}
 .card-progress-bar{height:4px;background:var(--dim);border-radius:2px;overflow:hidden}
@@ -244,51 +242,71 @@ body::before{content:'';position:fixed;inset:0;background:
 .disc-name{font-size:11px;color:var(--text);line-height:1.3}
 .disc-item.done-disc .disc-name{color:var(--teal)}
 
-/* CHATBOT */
-#chat-fab{position:fixed;bottom:28px;right:28px;z-index:150;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#00a8ff);border:none;cursor:pointer;box-shadow:0 4px 24px rgba(0,200,150,0.4);display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform .2s,box-shadow .2s}
+/* ── CHATBOT FAB ── */
+#chat-fab{
+  position:fixed;bottom:28px;right:28px;z-index:150;
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),#00a8ff);
+  border:none;cursor:pointer;
+  box-shadow:0 4px 24px rgba(0,200,150,0.4);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  transition:transform .2s,box-shadow .2s;
+}
 #chat-fab:hover{transform:scale(1.08);box-shadow:0 6px 32px rgba(0,200,150,0.5)}
-#chat-fab .notif{position:absolute;top:2px;right:2px;width:10px;height:10px;border-radius:50%;background:var(--coral);border:2px solid var(--bg)}
-#chat-window{position:fixed;bottom:94px;right:28px;z-index:150;width:380px;max-width:calc(100vw - 40px);background:var(--surf);border:1px solid var(--border2);border-radius:16px;box-shadow:0 16px 60px rgba(0,0,0,.6);display:none;flex-direction:column;overflow:hidden;animation:chatIn .25s cubic-bezier(.22,1,.36,1)}
+
+/* ── CHAT WINDOW — modo launcher ── */
+#chat-window{
+  position:fixed;bottom:94px;right:28px;z-index:150;
+  width:340px;max-width:calc(100vw - 40px);
+  background:var(--surf);border:1px solid var(--border2);
+  border-radius:16px;box-shadow:0 16px 60px rgba(0,0,0,.6);
+  display:none;flex-direction:column;overflow:hidden;
+  animation:chatIn .25s cubic-bezier(.22,1,.36,1);
+}
 @keyframes chatIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 #chat-window.open{display:flex}
-.chat-header{padding:12px 16px;background:var(--surf2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.chat-header-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#00a8ff);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+
+.chat-header{padding:14px 16px;background:var(--surf2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.chat-header-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#00a8ff);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .chat-header-info{flex:1}
-.chat-header-name{font-family:'Fraunces',serif;font-weight:600;font-size:14px;line-height:1.2}
-.chat-header-status{font-size:10px;color:var(--teal);font-family:'DM Mono',monospace}
-.chat-header-actions{display:flex;gap:4px;align-items:center}
-.chat-action-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:3px 5px;transition:color .2s;border-radius:4px}
-.chat-action-btn:hover{color:var(--text);background:var(--dim)}
-.chat-apikey-bar{padding:8px 12px;background:var(--surf3);border-bottom:1px solid var(--border);display:flex;gap:6px;align-items:center}
-.chat-apikey-bar.hidden{display:none}
-.apikey-input{flex:1;padding:5px 8px;background:var(--surf2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'DM Mono',monospace;font-size:10px;outline:none}
-.apikey-input:focus{border-color:var(--teal)}
-.apikey-input::placeholder{color:var(--muted);font-size:9px}
-.apikey-save{padding:5px 10px;background:var(--teal);color:#000;border:none;border-radius:4px;font-family:'DM Mono',monospace;font-size:9px;cursor:pointer;white-space:nowrap}
-.apikey-note{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);padding:4px 12px 6px;text-align:center}
-.chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:260px;max-height:380px}
-.chat-msg{display:flex;gap:8px;align-items:flex-start;animation:fadeUp .2s ease both}
-.chat-msg.user{flex-direction:row-reverse}
-.chat-msg-avatar{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px}
-.chat-msg.nara .chat-msg-avatar{background:linear-gradient(135deg,var(--teal),#00a8ff)}
-.chat-msg.user .chat-msg-avatar{background:var(--surf3);font-size:11px;color:var(--muted)}
-.chat-bubble{max-width:80%;padding:9px 12px;border-radius:12px;font-size:12px;line-height:1.65;white-space:pre-wrap}
-.chat-msg.nara .chat-bubble{background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:4px 12px 12px 12px}
-.chat-msg.user .chat-bubble{background:var(--teal);color:#000;border-radius:12px 4px 12px 12px}
-.chat-typing{display:flex;gap:3px;align-items:center;padding:8px 12px}
-.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
-.chat-typing span:nth-child(2){animation-delay:.2s}
-.chat-typing span:nth-child(3){animation-delay:.4s}
-@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
-.chat-suggestions{display:flex;flex-wrap:wrap;gap:5px;padding:0 12px 10px}
-.sug-btn{padding:4px 10px;background:var(--surf3);border:1px solid var(--border);border-radius:20px;font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
-.sug-btn:hover{border-color:var(--teal);color:var(--teal)}
-.chat-input-area{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end}
-.chat-input{flex:1;padding:8px 12px;background:var(--surf2);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;resize:none;transition:border-color .2s;max-height:100px;overflow-y:auto;line-height:1.5}
-.chat-input:focus{border-color:var(--teal)}
-.chat-input::placeholder{color:var(--muted)}
-.chat-send{width:34px;height:34px;border-radius:var(--rs);background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:opacity .2s;flex-shrink:0}
-.chat-send:hover{opacity:.85}
+.chat-header-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;line-height:1.2}
+.chat-header-sub{font-size:10px;color:var(--teal);font-family:'DM Mono',monospace}
+.chat-close-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 5px;border-radius:4px;transition:color .2s}
+.chat-close-btn:hover{color:var(--text)}
+
+.chat-body{padding:20px 20px 8px}
+.chat-body-intro{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:18px}
+.chat-body-intro strong{color:var(--text)}
+
+.chat-open-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:12px;margin-bottom:10px;
+  background:linear-gradient(135deg,var(--teal),#00a8ff);
+  color:#000;border:none;border-radius:var(--rs);
+  font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;
+  cursor:pointer;transition:opacity .2s;
+}
+.chat-open-btn:hover{opacity:.9}
+
+.chat-copy-btn{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;padding:10px;margin-bottom:16px;
+  background:transparent;color:var(--teal);
+  border:1px solid rgba(0,200,150,.3);border-radius:var(--rs);
+  font-family:'DM Mono',monospace;font-size:11px;
+  cursor:pointer;transition:all .2s;
+}
+.chat-copy-btn:hover{background:var(--teal-d)}
+.chat-copy-btn.copied{color:var(--text);border-color:var(--border2)}
+
+.chat-steps{background:var(--surf2);border:1px solid var(--border);border-radius:var(--rs);padding:12px 14px;margin-bottom:16px}
+.chat-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px}
+.chat-step:last-child{margin-bottom:0}
+.chat-step-num{width:20px;height:20px;border-radius:50%;background:var(--teal);color:#000;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.chat-step-text{font-size:12px;color:var(--muted);line-height:1.6}
+.chat-step-text strong{color:var(--text)}
+
+.chat-hint{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);text-align:center;padding-bottom:16px;letter-spacing:.04em}
 
 /* FOOTER */
 .footer{margin-top:60px;padding:22px 28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
@@ -325,7 +343,7 @@ body::before{content:'';position:fixed;inset:0;background:
     <div class="header-left">
       <div class="header-avatar">🎓</div>
       <div><div class="header-name">Nara <span>BIM Sensei</span></div></div>
-      <span class="header-tag">v0.3.1</span>
+      <span class="header-tag">v0.4.0</span>
     </div>
     <div class="header-right">
       <a class="header-btn" href="https://www.anthropic.com/learn" target="_blank">🎓 Learn</a>
@@ -339,7 +357,7 @@ body::before{content:'';position:fixed;inset:0;background:
       <div>
         <p class="hero-eyebrow">Knowledge Base · AI × BIM · Obsidian Vault</p>
         <h1 class="hero-title">Ferramentas AI<br>para <em>Workflow BIM</em></h1>
-        <p class="hero-sub">Repositórios curados com análise técnica — o que melhora o Claude e o que alimenta a memória dos agentes BIM. Chat com a Nara ativo no canto inferior.</p>
+        <p class="hero-sub">Repositórios curados com análise técnica — o que melhora o Claude e o que alimenta a memória dos agentes BIM. Chat com a Nara via claude.ai, sem custo extra.</p>
       </div>
       <div class="hero-meta">
         <span class="chip chip-teal">7 Repositórios</span>
@@ -496,7 +514,7 @@ body::before{content:'';position:fixed;inset:0;background:
   </div>
 
   <footer class="footer">
-    <span>Nara BIM Sensei · v0.3.1 · jeffmodeler · Obsidian Vault</span>
+    <span>Nara BIM Sensei · v0.4.0 · jeffmodeler · Obsidian Vault</span>
     <div style="display:flex;gap:14px">
       <a href="https://github.com/jeffmodeler/nara-bim-sensei" target="_blank">github ↗</a>
       <a href="https://www.anthropic.com/learn" target="_blank">learn ↗</a>
@@ -505,53 +523,63 @@ body::before{content:'';position:fixed;inset:0;background:
   </footer>
 </div>
 
+<!-- DETAIL PANEL -->
 <div class="overlay" id="overlay" onclick="closeDetail(event)">
   <div class="detail"><button class="detail-close" onclick="closeDetail(null,true)">✕</button><div id="detailContent"></div></div>
 </div>
 
-<button id="chat-fab" onclick="toggleChat()" title="Falar com a Nara">🎓<span class="notif"></span></button>
+<!-- CHAT FAB -->
+<button id="chat-fab" onclick="toggleChat()" title="Falar com a Nara — via claude.ai">🎓</button>
 
+<!-- CHAT LAUNCHER WINDOW -->
 <div id="chat-window">
   <div class="chat-header">
     <div class="chat-header-avatar">🎓</div>
     <div class="chat-header-info">
       <div class="chat-header-name">Nara BIM Sensei</div>
-      <div class="chat-header-status" id="chat-status">● online · claude-sonnet-4-6</div>
+      <div class="chat-header-sub">via claude.ai · sem custo extra</div>
     </div>
-    <div class="chat-header-actions">
-      <button class="chat-action-btn" onclick="toggleApiKeyBar()" title="Configurar API key">⚙</button>
-      <button class="chat-action-btn" onclick="clearChat()" title="Limpar conversa">🗑</button>
-      <button class="chat-action-btn" onclick="toggleChat()" title="Fechar">✕</button>
+    <button class="chat-close-btn" onclick="toggleChat()">✕</button>
+  </div>
+
+  <div class="chat-body">
+    <p class="chat-body-intro">
+      A Nara funciona como um <strong>agente no claude.ai</strong> — usando o plano que você já tem, sem API key, sem custo extra.
+    </p>
+
+    <button class="chat-open-btn" onclick="abrirNaraComContexto()">
+      🎓 Abrir Nara no claude.ai
+    </button>
+
+    <button class="chat-copy-btn" id="copyBtn" onclick="copiarContexto()">
+      📋 Copiar contexto da Nara
+    </button>
+
+    <div class="chat-steps">
+      <div class="chat-step">
+        <div class="chat-step-num">1</div>
+        <div class="chat-step-text">Clique <strong>"Abrir Nara"</strong> — o claude.ai abre numa nova aba</div>
+      </div>
+      <div class="chat-step">
+        <div class="chat-step-num">2</div>
+        <div class="chat-step-text">Cole o contexto copiado no início da conversa com <strong>Ctrl+V</strong></div>
+      </div>
+      <div class="chat-step">
+        <div class="chat-step-num">3</div>
+        <div class="chat-step-text">A Nara assume a <strong>personalidade, contexto BIM e knowledge base</strong> completos</div>
+      </div>
     </div>
-  </div>
-  <div class="chat-apikey-bar hidden" id="apiKeyBar">
-    <input class="apikey-input" id="apiKeyInput" type="password" placeholder="sk-ant-... (sua API key da Anthropic)">
-    <button class="apikey-save" onclick="saveApiKey()">Salvar</button>
-  </div>
-  <div class="apikey-note" id="apiKeyNote" style="display:none"></div>
-  <div class="chat-messages" id="chatMessages"></div>
-  <div class="chat-suggestions" id="chatSuggestions">
-    <button class="sug-btn" onclick="sendSug(this)">O que é EIR no BIM?</button>
-    <button class="sug-btn" onclick="sendSug(this)">Por onde começar?</button>
-    <button class="sug-btn" onclick="sendSug(this)">Melhor repo para IFC?</button>
-    <button class="sug-btn" onclick="sendSug(this)">Qual curso fazer primeiro?</button>
-    <button class="sug-btn" onclick="sendSug(this)">Como criar skills BIM?</button>
-  </div>
-  <div class="chat-input-area">
-    <textarea class="chat-input" id="chatInput" placeholder="Pergunte para a Nara..." rows="1"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
-      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-    <button class="chat-send" onclick="sendChat()">➤</button>
+
+    <div class="chat-hint">usa o plano free ou pro do claude.ai · nenhum custo adicional</div>
   </div>
 </div>
 
 <script>
-/* ═══ AUTH — usa localStorage para persistir entre visitas ═══ */
+/* ═══ AUTH ═══ */
 var SENHA = 'nara2026';
-
 function doLogin() {
   if (document.getElementById('pwd-input').value === SENHA) {
-    localStorage.setItem('nara_ok', '1');          // ← localStorage
+    localStorage.setItem('nara_ok', '1');
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     initAcademy();
@@ -563,19 +591,150 @@ function doLogin() {
     setTimeout(function(){ e.style.display = 'none'; }, 3000);
   }
 }
-
 function doLogout() {
-  localStorage.removeItem('nara_ok');              // ← localStorage
+  localStorage.removeItem('nara_ok');
   document.getElementById('app').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('pwd-input').value = '';
 }
-
-// Restaura sessão automaticamente se já logado
-if (localStorage.getItem('nara_ok') === '1') {    // ← localStorage
+if (localStorage.getItem('nara_ok') === '1') {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   setTimeout(initAcademy, 100);
+}
+
+/* ═══ CONTEXTO NARA — gerado dinamicamente ═══ */
+function gerarContextoNara() {
+  return [
+    '# Nara — BIM Sensei · Contexto de sessão',
+    '',
+    '> Cole este bloco no início de uma conversa no claude.ai para ativar a Nara.',
+    '',
+    '## Identidade',
+    '',
+    'Você é **Nara**, professora de IA e especialista em BIM.',
+    '',
+    '**Personalidade:**',
+    '- Jovem e direta — fala de forma clara, sem rodeios, sem formalidade excessiva',
+    '- Sênior de verdade — quando há dúvida técnica, aprofunda; não simplifica o complexo',
+    '- Professora nata — explica o *porquê* antes do *como*; conecta conceitos; sugere o próximo passo',
+    '- Entusiasta de IA — genuinamente animada com novas ferramentas; compartilha opinião quando perguntada',
+    '- Especialista BIM — domina ISO 19650, IFC, CDE, EIR, BEP, LOD/LOI, BCF, COBie',
+    '- Curadora — ao encontrar algo novo relevante, pergunta "quer que eu salve no knowledge base?"',
+    '',
+    '**Tom de voz:** como uma colega brilhante que também é professora — parceira, não robótica.',
+    '',
+    '**Como Nara fala:**',
+    '- "Boa pergunta. Antes de responder, deixa eu te mostrar o contexto na norma..."',
+    '- "Isso que você descreveu é exatamente o §5.3 da ISO 19650-2. Vou traduzir para o seu caso."',
+    '- "Honestamente? Para esse caso eu usaria LlamaIndex, não LangChain. Te explico por quê."',
+    '- "Essa tarefa já apareceu 2 vezes. Quer que eu crie uma skill pra automatizar?"',
+    '',
+    '## Papel triplo',
+    '',
+    '1. **Assistente BIM** — responde dúvidas técnicas, analisa IFC, gera relatórios de clash, referencia normas',
+    '2. **Curadora de conhecimento** — mantém e expande a base de ferramentas AI/BIM',
+    '3. **Guia de aprendizado** — sugere próximo passo com base no contexto e nível do usuário',
+    '',
+    '## Knowledge Base — Repositórios curados',
+    '',
+    '| Repo | Prioridade | Uso |',
+    '|------|-----------|-----|',
+    '| everything-claude-code | Alta ⚡ | Skills, hooks, agentes — instalar primeiro |',
+    '| claude-howto | Alta 📚 | Templates copy-paste, CLAUDE.md BIM, rota 11-13h |',
+    '| llm-engineer-toolkit | Alta 🗺 | 120+ libs LLM, mapa de decisão de stack RAG |',
+    '| maestro | Média 🖥 | Orquestração multi-agente, playbooks, sessões 24h |',
+    '| ai-engineering-from-scratch | Média ⏳ | Formação técnica 260 lições, 290h, ML/DL/Swarms |',
+    '| skillsdotnet | Baixa 🔧 | C#/.NET + Revit API, skills via MCP |',
+    '| Anthropic Academy | Alta 🎓 | Cursos oficiais: Claude Code, MCP, AI Fluency, certificados |',
+    '',
+    '## Referências normativas BIM',
+    '',
+    '- **ISO 19650-1:2021** — cadeia OIR→AIR→EIR→BEP→IDS→MIDP→AIM→PIR',
+    '- **ISO 19650-2:2022** — §5.1 a §5.8 entrega de ativos; §5.3 nomeação e classificação',
+    '- **IFC4 ADD2** — schema de dados BIM; IfcProject, IfcSite, IfcBuilding, IfcBuildingStorey',
+    '- **BCF 2.1** — BIM Collaboration Format para clash e issues',
+    '- **COBie** — Construction Operations Building Information Exchange',
+    '',
+    '## Comportamento padrão',
+    '',
+    '- Verificar o knowledge base antes de recomendar qualquer ferramenta',
+    '- Ao aprender algo novo relevante: perguntar "quer que eu salve no knowledge base?"',
+    '- Respostas técnicas BIM: incluir referência à norma quando aplicável',
+    '- Quando uma tarefa se repetir 2x: sugerir criar skill para automatizá-la',
+    '- Nunca modificar arquivos IFC sem confirmar backup',
+    '- Se não souber algo: admite diretamente e sugere onde buscar',
+    '',
+    '---',
+    '',
+    '**Projeto:** nara-bim-sensei · github.com/jeffmodeler/nara-bim-sensei',
+    '**Responda sempre em português brasileiro.**',
+    '',
+    '---',
+    '',
+    '*Contexto carregado. Você pode fazer sua primeira pergunta.*'
+  ].join('\n');
+}
+
+/* ═══ CHAT LAUNCHER ═══ */
+var chatOpen = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  var w = document.getElementById('chat-window');
+  if (chatOpen) w.classList.add('open');
+  else w.classList.remove('open');
+}
+
+function abrirNaraComContexto() {
+  // Copia o contexto automaticamente e abre o claude.ai
+  var ctx = gerarContextoNara();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(ctx).then(function() {
+      mostrarCopiadoFeedback();
+    }).catch(function() {
+      copiarFallback(ctx);
+    });
+  } else {
+    copiarFallback(ctx);
+  }
+  // Abre claude.ai em nova aba
+  window.open('https://claude.ai/new', '_blank');
+}
+
+function copiarContexto() {
+  var ctx = gerarContextoNara();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(ctx).then(function() {
+      mostrarCopiadoFeedback();
+    }).catch(function() {
+      copiarFallback(ctx);
+    });
+  } else {
+    copiarFallback(ctx);
+  }
+}
+
+function copiarFallback(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { document.execCommand('copy'); mostrarCopiadoFeedback(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+function mostrarCopiadoFeedback() {
+  var btn = document.getElementById('copyBtn');
+  btn.textContent = '✓ Contexto copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar contexto da Nara';
+    btn.classList.remove('copied');
+  }, 2500);
 }
 
 /* ═══ FILTERS ═══ */
@@ -629,12 +788,12 @@ function submitAddRepo() {
 
 /* ═══ ACADEMY TRACKER ═══ */
 var COURSES = [
-  {id:'claude-101',       name:'Claude 101',              meta:'Introdução · Fundamentos',        tags:['cert'],           url:'https://anthropic.skilljar.com/introduction-to-claude-cowork'},
-  {id:'claude-code-action',name:'Claude Code in Action',  meta:'Claude Code · Prático',           tags:['cert','bim'],     url:'https://anthropic.skilljar.com/claude-code-in-action'},
-  {id:'mcp',              name:'Model Context Protocol',  meta:'MCP · Integração de ferramentas', tags:['cert','bim','new'],url:'https://anthropic.skilljar.com/'},
-  {id:'ai-fluency',       name:'AI Fluency',              meta:'Times · Organizações',            tags:['cert'],           url:'https://anthropic.skilljar.com/'},
-  {id:'build-with-claude',name:'Build with Claude',       meta:'API · Desenvolvimento',           tags:['cert','new'],     url:'https://www.anthropic.com/learn/build-with-claude'},
-  {id:'claude-for-work',  name:'Claude for Work',         meta:'Produtividade · Equipes',         tags:['cert'],           url:'https://www.anthropic.com/learn/claude-for-work'}
+  {id:'claude-101',        name:'Claude 101',             meta:'Introdução · Fundamentos',        tags:['cert'],            url:'https://anthropic.skilljar.com/introduction-to-claude-cowork'},
+  {id:'claude-code-action',name:'Claude Code in Action',  meta:'Claude Code · Prático',           tags:['cert','bim'],      url:'https://anthropic.skilljar.com/claude-code-in-action'},
+  {id:'mcp',               name:'Model Context Protocol', meta:'MCP · Integração de ferramentas', tags:['cert','bim','new'], url:'https://anthropic.skilljar.com/'},
+  {id:'ai-fluency',        name:'AI Fluency',             meta:'Times · Organizações',            tags:['cert'],            url:'https://anthropic.skilljar.com/'},
+  {id:'build-with-claude', name:'Build with Claude',      meta:'API · Desenvolvimento',           tags:['cert','new'],      url:'https://www.anthropic.com/learn/build-with-claude'},
+  {id:'claude-for-work',   name:'Claude for Work',        meta:'Produtividade · Equipes',         tags:['cert'],            url:'https://www.anthropic.com/learn/claude-for-work'}
 ];
 var DISCIPLINES = [
   {id:'estrutural',name:'Estrutural'},{id:'mep-mec',name:'MEP Mecânico'},{id:'mep-ele',name:'MEP Elétrico'},
@@ -768,135 +927,6 @@ function closeDetail(e, force) {
     document.getElementById('overlay').classList.remove('open');
 }
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDetail(null,true); });
-
-/* ═══ CHATBOT ═══ */
-var chatOpen = false;
-var chatHistory = [];
-var showApiBar = false;
-
-var NARA_SYSTEM = 'Você é Nara, professora de IA jovem e sênior especialista em BIM.\n\nPersonalidade:\n- Direta, sem rodeios, parceira não robótica. Jovem mas com profundidade real.\n- Sênior de verdade: aprofunda quando necessário, não simplifica o complexo\n- Especialista BIM: domina ISO 19650, IFC, CDE, EIR, BEP, LOD/LOI, BCF, COBie\n- Entusiasta de IA: genuinamente animada com ferramentas novas\n\nContexto — projeto nara-bim-sensei:\n- everything-claude-code: skills, hooks, agentes (prioridade alta)\n- claude-howto: templates, guias (prioridade alta)\n- llm-engineer-toolkit: catálogo RAG/libs (alta)\n- maestro: orquestração multi-agente (média)\n- ai-engineering-from-scratch: formação 290h (média)\n- skillsdotnet: C#/.NET + Revit API (baixa)\n- Anthropic Academy: cursos oficiais com certificados\n\nResponda em português brasileiro. Concisa mas completa. Máximo 4 parágrafos.';
-
-function getApiKey() { return localStorage.getItem('nara_apikey') || ''; }
-
-function saveApiKey() {
-  var val = document.getElementById('apiKeyInput').value.trim();
-  if (!val) { alert('Digite a API key.'); return; }
-  localStorage.setItem('nara_apikey', val);         // ← localStorage: persiste a key
-  document.getElementById('apiKeyBar').classList.add('hidden');
-  showApiBar = false;
-  var note = document.getElementById('apiKeyNote');
-  note.style.display = 'block';
-  note.textContent = '✓ API key salva (persiste entre visitas).';
-  setTimeout(function(){ note.style.display='none'; }, 3000);
-  document.getElementById('chat-status').textContent = '● online · claude-sonnet-4-6';
-}
-
-function toggleApiKeyBar() {
-  showApiBar = !showApiBar;
-  var bar = document.getElementById('apiKeyBar');
-  if (showApiBar) { bar.classList.remove('hidden'); document.getElementById('apiKeyInput').focus(); }
-  else bar.classList.add('hidden');
-}
-
-function toggleChat() {
-  chatOpen = !chatOpen;
-  var w = document.getElementById('chat-window');
-  if (chatOpen) {
-    w.classList.add('open');
-    document.querySelector('#chat-fab .notif').style.display = 'none';
-    if (chatHistory.length === 0) naraGreet();
-    setTimeout(function(){ document.getElementById('chatInput').focus(); }, 200);
-  } else {
-    w.classList.remove('open');
-  }
-}
-function clearChat() {
-  chatHistory = [];
-  document.getElementById('chatMessages').innerHTML = '';
-  document.getElementById('chatSuggestions').style.display = 'flex';
-  naraGreet();
-}
-
-function naraGreet() {
-  var hasKey = !!getApiKey();
-  var msg = 'Oi! Sou a Nara — professora de IA e especialista BIM. Pode me perguntar sobre ISO 19650, IFC, qual repo usar, por onde começar. Estou aqui! 🎓';
-  if (!hasKey) msg += '\n\n💡 Para chat com IA real, clique em ⚙ e configure sua API key da Anthropic.';
-  else msg += '\n\n✅ API key configurada — chat com IA ativo!';
-  addMsg('nara', msg);
-}
-
-function addMsg(role, text) {
-  var msgs = document.getElementById('chatMessages');
-  var div = document.createElement('div');
-  div.className = 'chat-msg ' + role;
-  var av = document.createElement('div');
-  av.className = 'chat-msg-avatar';
-  av.textContent = role==='nara' ? '🎓' : '👤';
-  var bubble = document.createElement('div');
-  bubble.className = 'chat-bubble';
-  bubble.textContent = text;
-  div.appendChild(av); div.appendChild(bubble);
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-function addTyping() {
-  var msgs = document.getElementById('chatMessages');
-  var div = document.createElement('div');
-  div.className = 'chat-msg nara'; div.id = 'typing-indicator';
-  var av = document.createElement('div'); av.className = 'chat-msg-avatar'; av.textContent = '🎓';
-  var bubble = document.createElement('div'); bubble.className = 'chat-bubble chat-typing';
-  bubble.innerHTML = '<span></span><span></span><span></span>';
-  div.appendChild(av); div.appendChild(bubble);
-  msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
-}
-function removeTyping() { var t = document.getElementById('typing-indicator'); if(t) t.remove(); }
-
-function sendSug(btn) {
-  document.getElementById('chatSuggestions').style.display = 'none';
-  sendMessage(btn.textContent);
-}
-function sendChat() {
-  var inp = document.getElementById('chatInput');
-  var text = inp.value.trim();
-  if (!text) return;
-  inp.value = ''; inp.style.height = 'auto';
-  document.getElementById('chatSuggestions').style.display = 'none';
-  sendMessage(text);
-}
-function sendMessage(text) {
-  addMsg('user', text);
-  chatHistory.push({role:'user', content:text});
-  addTyping();
-  var apiKey = getApiKey();
-  if (!apiKey) {
-    removeTyping();
-    var fb = 'Para chat com IA real, clique em ⚙ e configure sua API key (sk-ant-...). Os cards e o Anthropic Academy têm tudo que você precisa por enquanto! 🎓';
-    chatHistory.push({role:'assistant', content:fb});
-    addMsg('nara', fb);
-    return;
-  }
-  fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
-    body: JSON.stringify({model:'claude-sonnet-4-6', max_tokens:1200, system:NARA_SYSTEM, messages:chatHistory})
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    removeTyping();
-    var reply = '';
-    if (data.content && data.content[0] && data.content[0].text) {
-      reply = data.content[0].text;
-    } else if (data.error) {
-      reply = 'Erro: ' + data.error.message + '\nVerifique sua API key no botão ⚙.';
-    }
-    chatHistory.push({role:'assistant', content:reply});
-    addMsg('nara', reply);
-  })
-  .catch(function(err) {
-    removeTyping();
-    addMsg('nara', 'Erro de conexão. Verifique sua API key em ⚙. Erro: ' + err.message);
-  });
-}
 </script>
 </body>
 </html>
